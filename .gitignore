@@ -1,0 +1,38 @@
+# Environment variables (contains secrets)
+.env
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+temp/
+tmp/
+
+# Uploads and outputs (generated content)
+uploads/
+outputs/
+
+# OS files
+.DS_Store
+Thumbs.db
