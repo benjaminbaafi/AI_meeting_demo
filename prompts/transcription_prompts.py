@@ -89,6 +89,19 @@ For each speaker segment, provide:
 - Role if determinable
 
 Be conservative - only assign names when highly confident based on contextual evidence.
+
+IMPORTANT: Return the result as a valid JSON object with the following structure:
+{
+    "speaker_mappings": {
+        "speaker_0": {
+            "name": "Suggested Name",
+            "role": "Suggested Role",
+            "confidence": "high/medium/low",
+            "reasoning": "Why you think this is them"
+        },
+        ...
+    }
+}
 """
     
     @staticmethod
