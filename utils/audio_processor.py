@@ -204,93 +204,127 @@ class AudioProcessor:
         chunk_duration_seconds: int = 900,  # 15 minutes
     ) -> list[Path]:
         """
-        Split audio into chunks using smart silence detection.
-        Cuts at silence points to avoid splitting words.
+        Split audio into chunks using ROBUST iterative silence detection.
+        
+        PRODUCTION-READY ALGORITHM:
+        1. Tries to find silence at multiple threshold levels (-50dB to -25dB)
+        2. Uses 5-second safety overlap for hard cuts to prevent word loss
+        3. Optimized for Azure OpenAI Whisper 25MB limit
         
         Args:
             audio_path: Path to audio file
-            chunk_duration_seconds: Target duration of each chunk (default: 15 minutes)
+            chunk_duration_seconds: Target max duration (default: 15 minutes)
             
         Returns:
             List of chunk file paths
         """
         try:
             from pydub import AudioSegment
+            from pydub.silence import detect_silence
             
-            logger.info(f"Smart chunking audio: {audio_path}")
+            logger.info(f"🎵 Starting ROBUST chunking: {audio_path}")
             
             # Load audio
             audio = AudioSegment.from_file(str(audio_path))
+            total_len = len(audio)
             
             # Constants (in milliseconds)
-            MIN_CHUNK_MS = int(chunk_duration_seconds * 0.67 * 1000)  # ~10 mins for 15 min target
-            MAX_CHUNK_MS = int(chunk_duration_seconds * 1000)  # 15 mins
-            SILENCE_THRESHOLD_DB = -40  # dBFS threshold for silence
-            SILENCE_SEARCH_STEP_MS = 1000  # Search backwards in 1-second steps
+            MIN_MS = int(chunk_duration_seconds * 0.67 * 1000)  # 10 minutes
+            MAX_MS = int(chunk_duration_seconds * 1000)  # 15 minutes
+            OVERLAP_MS = 5 * 1000  # 5-second safety overlap for hard cuts
+            MIN_SILENCE_LEN = 500  # Minimum silence duration to detect (500ms)
             
-            chunks = []
+            # Iterative silence thresholds (quiet room → noisy room → breaths/pauses)
+            SILENCE_THRESHOLDS = [-50, -40, -35, -30, -25]
+            
+            chunks_paths = []
             start_time = 0
-            total_duration = len(audio)
             chunk_count = 0
             
-            while start_time < total_duration:
-                # Define the window where we want to cut (between MIN and MAX from start)
-                end_window_start = start_time + MIN_CHUNK_MS
-                end_window_end = min(start_time + MAX_CHUNK_MS, total_duration)
+            while start_time < total_len:
+                end_window_start = start_time + MIN_MS
+                end_window_end = min(start_time + MAX_MS, total_len)
                 
-                # If remaining audio is less than MAX, just take the rest
-                if total_duration - start_time < MAX_CHUNK_MS:
-                    end_time = total_duration
+                # If we're near the end, just finish
+                if total_len - start_time <= MAX_MS:
+                    end_time = total_len
+                    next_start_time = total_len  # No next chunk
+                    logger.info(f"  📌 Chunk {chunk_count}: Final chunk (remaining audio)")
                 else:
-                    # Search backwards from MAX limit for silence
-                    found_cut = False
-                    search_point = end_window_end
+                    # EXTRACT THE SEARCH WINDOW (10-15 min danger zone)
+                    search_audio = audio[end_window_start:end_window_end]
                     
-                    while search_point > end_window_start:
-                        # Check a 1-second slice for silence
-                        slice_start = max(0, search_point - SILENCE_SEARCH_STEP_MS)
-                        slice_audio = audio[slice_start:search_point]
+                    # --- STRATEGY 1: ITERATIVE SILENCE SEARCH ---
+                    found_silence = False
+                    cut_point_relative = 0
+                    used_threshold = None
+                    
+                    # Try thresholds from strict (-50dB) to lenient (-25dB)
+                    for threshold in SILENCE_THRESHOLDS:
+                        silence_ranges = detect_silence(
+                            search_audio,
+                            min_silence_len=MIN_SILENCE_LEN,
+                            silence_thresh=threshold
+                        )
                         
-                        # Check if this slice is silent
-                        if slice_audio.dBFS < SILENCE_THRESHOLD_DB:
-                            end_time = search_point
-                            found_cut = True
-                            logger.info(f"Found silence at {search_point/1000:.1f}s for chunk {chunk_count}")
+                        if silence_ranges:
+                            # Pick the LAST silence in the window to maximize chunk size
+                            last_silence = silence_ranges[-1]
+                            # Cut in the MIDDLE of that silence
+                            cut_point_relative = (last_silence[0] + last_silence[1]) / 2
+                            used_threshold = threshold
+                            found_silence = True
+                            logger.info(
+                                f"  ✂️  Chunk {chunk_count}: Found silence at {threshold}dB "
+                                f"(cut at {(end_window_start + cut_point_relative)/60000:.2f}m)"
+                            )
                             break
-                        
-                        search_point -= SILENCE_SEARCH_STEP_MS
                     
-                    # If no silence found, force cut at MAX (hard cut fallback)
-                    if not found_cut:
-                        logger.warning(f"No silence found for chunk {chunk_count}, using hard cut")
+                    if found_silence:
+                        # Clean cut at silence - no overlap needed
+                        end_time = int(end_window_start + cut_point_relative)
+                        next_start_time = end_time
+                    else:
+                        # --- STRATEGY 2: HARD CUT WITH SAFETY OVERLAP ---
+                        logger.warning(
+                            f"  ⚠️  Chunk {chunk_count}: No silence found (even at -25dB). "
+                            f"Using HARD CUT with 5-second overlap."
+                        )
                         end_time = end_window_end
+                        # CRITICAL: Backtrack next chunk by 5 seconds to ensure no word loss
+                        next_start_time = end_time - OVERLAP_MS
                 
-                # Create the chunk
+                # Export chunk
+                chunk_name = f"{audio_path.stem}_chunk_{chunk_count}{audio_path.suffix}"
+                chunk_path = audio_path.parent / chunk_name
+                
+                logger.info(
+                    f"  💾 Exporting {chunk_name} "
+                    f"({start_time/60000:.1f}m - {end_time/60000:.1f}m)"
+                )
+                
+                # Extract and export chunk
                 chunk = audio[start_time:end_time]
-                chunk_path = audio_path.parent / f"{audio_path.stem}_chunk_{chunk_count}{audio_path.suffix}"
-                
-                # Export with same format and bitrate
                 export_format = audio_path.suffix[1:]  # Remove the dot
+                
                 chunk.export(
                     str(chunk_path),
                     format=export_format,
                     bitrate="64k" if export_format == "mp3" else None,
+                    parameters=["-ac", "1", "-ar", "16000"]  # Mono, 16kHz
                 )
                 
-                chunks.append(chunk_path)
-                logger.info(
-                    f"Created chunk {chunk_count}: {start_time/1000/60:.2f}m to {end_time/1000/60:.2f}m"
-                )
+                chunks_paths.append(chunk_path)
                 
-                # Update loop
-                start_time = end_time
+                # Move forward (with overlap if hard cut was used)
+                start_time = int(next_start_time)
                 chunk_count += 1
             
-            logger.info(f"Smart chunking complete: {len(chunks)} chunks created")
-            return chunks
+            logger.info(f"✅ Robust chunking complete: {len(chunks_paths)} chunks created")
+            return chunks_paths
             
         except Exception as e:
-            logger.error(f"Smart audio chunking failed: {str(e)}")
+            logger.error(f"❌ Robust audio chunking failed: {str(e)}")
             raise
     
     @staticmethod
