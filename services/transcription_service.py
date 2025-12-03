@@ -319,6 +319,7 @@ class TranscriptionService:
     ) -> Dict[str, Any]:
         """
         Transcribe large audio file by splitting into chunks.
+        Uses parallel processing (5 chunks at a time) for faster transcription.
         
         Args:
             normalized_path: Path to normalized audio file
@@ -334,7 +335,7 @@ class TranscriptionService:
         from config import settings
         
         try:
-            logger.info("Starting chunked transcription for job: %s", job_id)
+            logger.info("Starting PARALLEL chunked transcription for job: %s", job_id)
             
             # Split audio into chunks
             chunk_duration = settings.chunk_duration_seconds
@@ -344,76 +345,89 @@ class TranscriptionService:
             )
             
             logger.info("Split audio into %d chunks for job: %s", len(chunks), job_id)
+            logger.info("Processing chunks in parallel batches of 5...")
             
-            # Transcribe each chunk
+            # Process chunks in parallel batches
+            BATCH_SIZE = 5  # Process 5 chunks concurrently
+            all_chunk_results = []
+            
+            for batch_start in range(0, len(chunks), BATCH_SIZE):
+                batch_end = min(batch_start + BATCH_SIZE, len(chunks))
+                batch_chunks = chunks[batch_start:batch_end]
+                
+                logger.info(
+                    "Processing batch %d-%d of %d chunks...",
+                    batch_start + 1,
+                    batch_end,
+                    len(chunks)
+                )
+                
+                # Create tasks for parallel processing
+                tasks = []
+                for chunk_idx, chunk_path in enumerate(batch_chunks, start=batch_start):
+                    task = self._transcribe_single_chunk(
+                        chunk_path=chunk_path,
+                        chunk_idx=chunk_idx,
+                        total_chunks=len(chunks),
+                        chunk_duration=chunk_duration,
+                        language=language,
+                        practice_area=practice_area,
+                        custom_vocabulary=custom_vocabulary,
+                        job_id=job_id,
+                    )
+                    tasks.append(task)
+                
+                # Execute batch in parallel
+                batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+                
+                # Collect successful results
+                for idx, result in enumerate(batch_results):
+                    chunk_idx = batch_start + idx
+                    if isinstance(result, Exception):
+                        logger.error(
+                            "Failed to transcribe chunk %d for job %s: %s",
+                            chunk_idx + 1,
+                            job_id,
+                            str(result)
+                        )
+                        # Continue with other chunks
+                        continue
+                    
+                    if result is not None:
+                        all_chunk_results.append((chunk_idx, result))
+                
+                logger.info(
+                    "Batch %d-%d completed (%d/%d successful)",
+                    batch_start + 1,
+                    batch_end,
+                    len([r for r in batch_results if not isinstance(r, Exception)]),
+                    len(batch_results)
+                )
+            
+            # Sort results by chunk index to maintain order
+            all_chunk_results.sort(key=lambda x: x[0])
+            
+            # Merge results
             all_segments = []
             all_text_parts = []
             detected_language = None
             
-            for chunk_idx, chunk_path in enumerate(chunks):
-                try:
-                    logger.info(
-                        "Transcribing chunk %d/%d for job: %s",
-                        chunk_idx + 1,
-                        len(chunks),
-                        job_id
-                    )
-                    
-                    # Transcribe chunk
-                    chunk_result = await self.azure_service.transcribe_audio(
-                        audio_file_path=str(chunk_path),
-                        language=language,
-                        prompt=self._get_transcription_prompt(practice_area, custom_vocabulary),
-                    )
-                    
-                    # Store language from first chunk
-                    if detected_language is None:
-                        detected_language = chunk_result.get("language")
-                    
-                    # Adjust segment timestamps to account for chunk offset
-                    chunk_offset = chunk_idx * chunk_duration
-                    adjusted_segments = []
-                    
-                    for seg in chunk_result.get("segments", []):
-                        adjusted_seg = seg.copy()
-                        adjusted_seg["start"] = seg["start"] + chunk_offset
-                        adjusted_seg["end"] = seg["end"] + chunk_offset
-                        adjusted_segments.append(adjusted_seg)
-                    
-                    all_segments.extend(adjusted_segments)
-                    all_text_parts.append(chunk_result.get("text", ""))
-                    
-                    logger.info(
-                        "Completed chunk %d/%d for job: %s (%d segments)",
-                        chunk_idx + 1,
-                        len(chunks),
-                        job_id,
-                        len(adjusted_segments)
-                    )
-                    
-                    # Add delay to avoid rate limiting (except for last chunk)
-                    if chunk_idx < len(chunks) - 1:
-                        logger.info("Waiting 2 seconds before next chunk to avoid rate limits...")
-                        await asyncio.sleep(2)
-                    
-                except Exception as e:
-                    logger.error(
-                        "Failed to transcribe chunk %d for job %s: %s",
-                        chunk_idx + 1,
-                        job_id,
-                        str(e)
-                    )
-                    # Continue with other chunks even if one fails
-                    continue
+            for chunk_idx, chunk_result in all_chunk_results:
+                # Store language from first chunk
+                if detected_language is None:
+                    detected_language = chunk_result.get("language")
+                
+                # Add segments and text
+                all_segments.extend(chunk_result.get("segments", []))
+                all_text_parts.append(chunk_result.get("text", ""))
             
-            # Merge results
             merged_text = " ".join(all_text_parts)
             
-            # Sort segments by start time (in case chunks were processed out of order)
+            # Sort segments by start time (in case of overlaps)
             all_segments.sort(key=lambda x: x["start"])
             
             logger.info(
-                "Chunked transcription completed for job: %s (%d total segments)",
+                "PARALLEL chunked transcription completed for job: %s (%d total segments)",
                 job_id,
                 len(all_segments)
             )
@@ -427,6 +441,81 @@ class TranscriptionService:
             
         except Exception as e:
             logger.exception("Chunked transcription failed for job: %s", job_id)
+            raise
+    
+    async def _transcribe_single_chunk(
+        self,
+        chunk_path: Path,
+        chunk_idx: int,
+        total_chunks: int,
+        chunk_duration: int,
+        language: Optional[str],
+        practice_area: PracticeArea,
+        custom_vocabulary: Optional[List[str]],
+        job_id: str,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Transcribe a single chunk (used for parallel processing).
+        
+        Args:
+            chunk_path: Path to chunk file
+            chunk_idx: Index of this chunk (0-based)
+            total_chunks: Total number of chunks
+            chunk_duration: Duration of each chunk in seconds
+            language: Optional language code
+            practice_area: Legal practice area
+            custom_vocabulary: Optional custom terms
+            job_id: Job identifier for logging
+            
+        Returns:
+            Chunk transcription result with adjusted timestamps
+        """
+        try:
+            logger.info(
+                "Transcribing chunk %d/%d for job: %s",
+                chunk_idx + 1,
+                total_chunks,
+                job_id
+            )
+            
+            # Transcribe chunk
+            chunk_result = await self.azure_service.transcribe_audio(
+                audio_file_path=str(chunk_path),
+                language=language,
+                prompt=self._get_transcription_prompt(practice_area, custom_vocabulary),
+            )
+            
+            # Adjust segment timestamps to account for chunk offset
+            chunk_offset = chunk_idx * chunk_duration
+            adjusted_segments = []
+            
+            for seg in chunk_result.get("segments", []):
+                adjusted_seg = seg.copy()
+                adjusted_seg["start"] = seg["start"] + chunk_offset
+                adjusted_seg["end"] = seg["end"] + chunk_offset
+                adjusted_segments.append(adjusted_seg)
+            
+            logger.info(
+                "Completed chunk %d/%d for job: %s (%d segments)",
+                chunk_idx + 1,
+                total_chunks,
+                job_id,
+                len(adjusted_segments)
+            )
+            
+            return {
+                "text": chunk_result.get("text", ""),
+                "language": chunk_result.get("language"),
+                "segments": adjusted_segments,
+            }
+            
+        except Exception as e:
+            logger.error(
+                "Failed to transcribe chunk %d for job %s: %s",
+                chunk_idx + 1,
+                job_id,
+                str(e)
+            )
             raise
     
     def _extract_unique_speakers(self, segments: List[TranscriptSegment]) -> List[Speaker]:
