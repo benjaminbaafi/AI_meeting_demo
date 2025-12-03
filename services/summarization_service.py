@@ -401,8 +401,40 @@ class SummarizationService:
     
     async def _extract_deadlines(self, transcript: str) -> List[datetime]:
         """Extract deadlines mentioned."""
-        # Simplified - in production, use more sophisticated date extraction
-        return []
+        try:
+            messages = [{
+                "role": "system",
+                "content": """Extract all dates, deadlines, and time-sensitive commitments.
+                Return as JSON: {"deadlines": [{"date": "ISO-8601", "description": "what's due"}]}"""
+            }, {
+                "role": "user",
+                "content": transcript[:3000]  # First 3000 chars to avoid token limits
+            }]
+            
+            result = await self.azure_service.generate_json_completion(
+                messages=messages,
+                temperature=0.3
+            )
+            
+            deadlines = []
+            for item in result.get("deadlines", []):
+                try:
+                    # Parse ISO format date
+                    deadline_date = datetime.fromisoformat(item["date"].replace("Z", "+00:00"))
+                    deadlines.append(deadline_date)
+                except Exception:
+                    # Try to parse just the date part if full ISO fails
+                    try:
+                        date_str = item["date"].split("T")[0]
+                        deadline_date = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                        deadlines.append(deadline_date)
+                    except Exception:
+                        logger.warning(f"Failed to parse deadline date: {item}")
+            
+            return deadlines
+        except Exception:
+            logger.exception("Deadline extraction failed")
+            return []
 
 
 # Global service instance

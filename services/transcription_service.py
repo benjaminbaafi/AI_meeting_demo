@@ -121,20 +121,23 @@ class TranscriptionService:
                 enable_speaker_diarization,
             )
             
-            # Step 6: Calculate metrics
-            word_count = len(enhanced_text.split())
+            # Step 6: Generate formatted transcript with speaker labels
+            formatted_text = self._generate_formatted_transcript(segments)
+            
+            # Step 7: Calculate metrics
+            word_count = len(formatted_text.split())
             avg_confidence = sum(
                 seg.confidence for seg in segments
             ) / len(segments) if segments else 0.0
             
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds()
             
-            # Step 7: Create response
+            # Step 8: Create response
             response = TranscriptionResponse(
                 job_id=job_id,
                 status=ProcessingStatus.COMPLETED,
                 segments=segments,
-                full_text=enhanced_text,
+                full_text=formatted_text,
                 speakers=self._extract_unique_speakers(segments),
                 duration_seconds=duration,
                 word_count=word_count,
@@ -299,15 +302,39 @@ class TranscriptionService:
                 temperature=0.3,
             )
             
-            # Apply speaker mapping (simplified - in production, use more sophisticated logic)
-            # This is a placeholder for demonstration
-            logger.info("Speaker identification analysis completed")
+            # Parse the result to get speaker mappings
+            speaker_mappings = result.get("speaker_mappings", {})
             
-        except Exception:
-            logger.exception("Speaker identification improvement failed")
-        
-        return segments
-    
+            if not speaker_mappings:
+                logger.warning("No speaker mappings returned by GPT")
+                return segments
+                
+            logger.info(f"GPT identified speakers: {speaker_mappings}")
+            
+            # Apply mappings to segments
+            updated_segments = []
+            for seg in segments:
+                new_seg = seg.model_copy(deep=True)
+                current_id = new_seg.speaker.speaker_id
+                mapping = speaker_mappings.get(current_id)
+                
+                if mapping:
+                    if "name" in mapping:
+                        new_seg.speaker.name = mapping["name"]
+                    if "role" in mapping:
+                        try:
+                            new_seg.speaker.role = SpeakerRole(mapping["role"].lower())
+                        except ValueError:
+                            new_seg.speaker.role = SpeakerRole.UNKNOWN
+                
+                updated_segments.append(new_seg)
+            
+            return updated_segments
+            
+        except Exception as e:
+            logger.error(f"Speaker identification improvement failed: {str(e)}")
+            return segments
+
     async def _transcribe_with_chunking(
         self,
         normalized_path: Path,
@@ -518,6 +545,37 @@ class TranscriptionService:
             )
             raise
     
+    def _generate_formatted_transcript(
+        self,
+        segments: List[TranscriptSegment]
+    ) -> str:
+        """
+        Generate formatted transcript with speaker labels and timestamps.
+        
+        Format:
+        [00:00:15] John Doe: Hello, how are you?
+        """
+        lines = []
+        
+        for seg in segments:
+            # Format timestamp as HH:MM:SS
+            hours = int(seg.start_time // 3600)
+            minutes = int((seg.start_time % 3600) // 60)
+            seconds = int(seg.start_time % 60)
+            
+            if hours > 0:
+                timestamp = f"[{hours:02d}:{minutes:02d}:{seconds:02d}]"
+            else:
+                timestamp = f"[{minutes:02d}:{seconds:02d}]"
+            
+            # Get speaker name or ID
+            speaker_label = seg.speaker.name or seg.speaker.speaker_id
+            
+            # Format line
+            lines.append(f"{timestamp} {speaker_label}: {seg.text}")
+        
+        return "\n".join(lines)
+
     def _extract_unique_speakers(self, segments: List[TranscriptSegment]) -> List[Speaker]:
         """
         Extract unique speakers from segments.

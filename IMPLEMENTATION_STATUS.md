@@ -261,46 +261,6 @@ def generate_interactive_html(
 
 ---
 
-## 📈 Implementation Status Summary
-
-| Feature | Status | Priority | Effort |
-|---------|--------|----------|--------|
-| **Speaker Diarization** | ✅ Done | - | - |
-| **Speaker Name Mapping** | ❌ Missing | High | Medium |
-| **Enhanced Full Text** | ⚠️ Partial | High | Low |
-| **Topic Segmentation** | ✅ Done | - | - |
-| **Filler Word Removal** | ❌ Missing | Low | Low |
-| **Transcription Enhancement** | ✅ Done | - | - |
-| **Speaker Role Tracking** | ✅ Done | - | - |
-| **Privilege Detection** | ⚠️ Partial | High | Medium |
-| **Deadline Extraction** | ⚠️ Stub | High | Low |
-| **Case Reference Extraction** | ✅ Done | - | - |
-| **Action Item Extraction** | ✅ Done | - | - |
-| **JSON Export** | ✅ Done | - | - |
-| **PDF Export** | ❌ Missing | Medium | Medium |
-| **Plain Text Summary** | ✅ Done | - | - |
-| **Interactive HTML** | ❌ Missing | Low | Medium |
-
----
-
-## 🎯 Recommended Implementation Priority
-
-### Phase 1: Quick Wins (1-2 days)
-1. **Fix `_extract_deadlines()`** - Currently returns empty list
-2. **Add `_generate_formatted_transcript()`** - Auto-generate full_text from segments
-3. **Add filler word removal** - Simple regex cleanup
-
-### Phase 2: High-Value Features (3-5 days)
-4. **Speaker name mapping API** - Allow admins to label speakers
-5. **Privilege detection enhancement** - Add specific prompts for attorney-client privilege
-6. **PDF export** - Court-ready transcript generation
-
-### Phase 3: Nice-to-Have (1 week)
-7. **Interactive HTML export** - Clickable timestamps
-8. **Advanced speaker consistency** - Track speakers across meetings
-
----
-
 ## 💡 Code Snippets for Missing Features
 
 ### 1. Fix Deadline Extraction (High Priority)
