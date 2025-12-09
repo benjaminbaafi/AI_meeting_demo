@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Feature Tour - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="css/main.css" rel="stylesheet"/>
+    <link href="css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display">
+    <div class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-background-light dark:bg-background-dark">
+        
+        <!-- Background Pattern -->
+        <svg aria-hidden="true" class="absolute inset-0 z-0 h-full w-full text-gray-200/50 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] dark:text-gray-800/50">
+            <defs>
+                <pattern height="200" id="pattern-grid" patternUnits="userSpaceOnUse" width="200" x="50%" y="-1">
+                    <path d="M.5 200V.5H200" fill="none"></path>
+                </pattern>
+            </defs>
+            <svg class="overflow-visible fill-current" x="50%" y="-1">
+                <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z" stroke-width="0"></path>
+            </svg>
+            <rect fill="url(#pattern-grid)" height="100%" stroke-width="0" width="100%"></rect>
+        </svg>
+
+        <!-- Main Content -->
+        <div class="relative z-10 flex h-full w-full grow flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+            <div class="flex w-full max-w-4xl flex-col items-center gap-8 rounded-xl bg-white/70 p-6 backdrop-blur-sm dark:bg-background-dark/50 sm:p-10 md:gap-12 md:p-16 shadow-xl">
+                
+                <div class="flex w-full flex-col items-center gap-12 text-center">
+                    
+                    <!-- Feature Visualization -->
+                    <div id="feature-display" class="flex h-40 w-full items-center justify-center gap-6 rounded-lg bg-slate-50 p-6 dark:bg-white/5 sm:h-56 transition-all duration-500">
+                        <!-- Content will be dynamically updated -->
+                    </div>
+
+                    <!-- Title and Description -->
+                    <div class="flex flex-col gap-2">
+                        <h1 id="tour-title" class="text-2xl font-bold text-slate-800 dark:text-white sm:text-3xl md:text-4xl"></h1>
+                        <p id="tour-description" class="text-base text-slate-600 dark:text-gray-300 sm:text-lg"></p>
+                    </div>
+
+                </div>
+
+                <!-- Pagination Dots -->
+                <div class="flex items-center justify-center gap-2">
+                    <button class="dot flex size-3 items-center justify-center rounded-full bg-primary transition-all" data-step="0"></button>
+                    <button class="dot flex size-3 items-center justify-center rounded-full bg-gray-300 dark:bg-white/10 transition-all" data-step="1"></button>
+                    <button class="dot flex size-3 items-center justify-center rounded-full bg-gray-300 dark:bg-white/10 transition-all" data-step="2"></button>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex w-full max-w-xs flex-col items-center gap-4">
+                    <button id="next-btn" class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] transition-colors hover:bg-primary/90">
+                        <span class="truncate">Next</span>
+                    </button>
+                    <button id="skip-btn" class="cursor-pointer text-center text-sm font-normal leading-normal text-slate-600 underline transition-colors hover:text-primary dark:text-gray-400 dark:hover:text-white">
+                        Skip
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/tour.js"></script>
+</body>
+</html>

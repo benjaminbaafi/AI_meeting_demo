@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Upload - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    <link href="../css/sidebar.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display">
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+        <div class="flex h-full min-h-screen">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <div class="flex flex-col gap-4">
+                    <!-- Logo Section -->
+                    <div class="flex items-center gap-3 px-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD7uiCbz91S3XiiuF8UPt-mUNUyRz2vZVhmEqaaYQsvltBt91rgR5pb6MU6wj7n_i6fwoJoVro4WVXby5kR1HjAk6SopUPUBs_v16zX3ga33LCxI4M6TXz_Cozt9VsGz9MGiubN6PD22fz1goa1vKDDgT9CIK_0B4UTlLPbRIUzJDLFTJSgTMqD0NK-DiNzQST9_ykCeev5eN9NFD36SfiE141E5PGxL7NDJg4iu5ztfGljFZ1joW1S7cia23W_Q8Z91yHfbclIutQ");'></div>
+                        <div class="flex flex-col">
+                            <h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">TranscribeAI</h1>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Workspace</p>
+                        </div>
+                    </div>
+
+                    <!-- Main Navigation -->
+                    <nav class="flex flex-col gap-2 mt-4">
+                        <a class="sidebar-link" href="../index.html">
+                            <span class="material-symbols-outlined">home</span>
+                            <p class="text-sm font-medium leading-normal">Home</p>
+                        </a>
+                        <a class="sidebar-link" href="transcriptions.html">
+                            <span class="material-symbols-outlined">folder</span>
+                            <p class="text-sm font-medium leading-normal">My Files</p>
+                        </a>
+                        <a class="sidebar-link active" href="upload-sidebar.html">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">upload</span>
+                            <p class="text-sm font-medium leading-normal">Upload</p>
+                        </a>
+                        <a class="sidebar-link" href="#">
+                            <span class="material-symbols-outlined">group</span>
+                            <p class="text-sm font-medium leading-normal">Teams</p>
+                        </a>
+                        <a class="sidebar-link" href="account.html">
+                            <span class="material-symbols-outlined">settings</span>
+                            <p class="text-sm font-medium leading-normal">Settings</p>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Bottom Section -->
+                <div class="flex flex-col gap-4">
+                    <button class="btn btn-primary w-full">
+                        <span class="truncate">Upgrade</span>
+                    </button>
+                    <div class="flex flex-col gap-1">
+                        <a class="sidebar-link" href="#">
+                            <span class="material-symbols-outlined">support_agent</span>
+                            <p class="text-sm font-medium leading-normal">Support</p>
+                        </a>
+                        <a class="sidebar-link" href="#">
+                            <span class="material-symbols-outlined">logout</span>
+                            <p class="text-sm font-medium leading-normal">Log out</p>
+                        </a>
+                    </div>
+                    <button id="theme-toggle-sidebar" class="sidebar-link">
+                        <span class="material-symbols-outlined">dark_mode</span>
+                        <p class="text-sm font-medium leading-normal">Dark Mode</p>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-8 overflow-y-auto">
+                <div class="mx-auto max-w-4xl fade-in">
+                    
+                    <!-- Page Heading -->
+                    <div class="flex flex-wrap justify-between gap-3 mb-8">
+                        <div class="flex flex-col gap-2">
+                            <h1 class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Upload or Record Your Audio/Video</h1>
+                            <p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">Get started by uploading a file or recording new content.</p>
+                        </div>
+                    </div>
+
+                    <!-- Empty State Drop Zone -->
+                    <div class="flex flex-col p-4">
+                        <div id="drop-zone-sidebar" class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-background-dark px-6 py-14 transition-colors hover:border-primary hover:bg-primary/5">
+                            <div class="text-primary">
+                                <span class="material-symbols-outlined" style="font-size: 48px;">cloud_upload</span>
+                            </div>
+                            <div class="flex max-w-[480px] flex-col items-center gap-2">
+                                <p class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] text-center">Drag & drop files here, or</p>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal text-center">Supports: MP3, WAV, MP4, MOV</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center gap-4">
+                                <button id="browse-files-sidebar" class="btn btn-primary btn-large">
+                                    <span class="truncate">Browse Files</span>
+                                </button>
+                                <input type="file" id="file-input-sidebar" accept=".mp3,.wav,.mp4,.mov,.m4a,.ogg,.webm" style="display: none;">
+                                <button id="record-audio-sidebar" class="btn btn-secondary btn-large gap-2">
+                                    <span class="material-symbols-outlined">mic</span>
+                                    <span class="truncate">Record Audio</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Use Cases Section -->
+                    <div class="mt-10">
+                        <h2 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">What can you transcribe?</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
+                            
+                            <!-- Use Case Card 1 -->
+                            <div class="card flex flex-col items-start gap-3">
+                                <div class="flex items-center justify-center size-12 rounded-full bg-primary/10">
+                                    <span class="material-symbols-outlined text-primary">groups</span>
+                                </div>
+                                <h3 class="text-gray-900 dark:text-white font-bold">Meetings & Interviews</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">Automatically generate notes, summaries, and action items from your calls.</p>
+                            </div>
+
+                            <!-- Use Case Card 2 -->
+                            <div class="card flex flex-col items-start gap-3">
+                                <div class="flex items-center justify-center size-12 rounded-full bg-primary/10">
+                                    <span class="material-symbols-outlined text-primary">school</span>
+                                </div>
+                                <h3 class="text-gray-900 dark:text-white font-bold">Lectures & Webinars</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">Create accurate transcripts to make educational content searchable and accessible.</p>
+                            </div>
+
+                            <!-- Use Case Card 3 -->
+                            <div class="card flex flex-col items-start gap-3">
+                                <div class="flex items-center justify-center size-12 rounded-full bg-primary/10">
+                                    <span class="material-symbols-outlined text-primary">podcasts</span>
+                                </div>
+                                <h3 class="text-gray-900 dark:text-white font-bold">Podcasts & Videos</h3>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm">Repurpose your media into blog posts, articles, and social media content with ease.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Sample Link -->
+                    <div class="text-center mt-8 py-4">
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">
+                            New to our tool? 
+                            <a id="sample-file-link" class="font-bold text-primary hover:underline cursor-pointer">Try it with a sample file</a>.
+                        </p>
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/upload.js"></script>
+    <script>
+        // Additional setup for sidebar variant
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup theme toggle for sidebar
+            const themeToggleSidebar = document.getElementById('theme-toggle-sidebar');
+            if (themeToggleSidebar) {
+                themeToggleSidebar.addEventListener('click', () => {
+                    window.themeManager.toggle();
+                });
+            }
+
+            // Setup sample file link
+            const sampleLink = document.getElementById('sample-file-link');
+            if (sampleLink) {
+                sampleLink.addEventListener('click', () => {
+                    alert('Loading sample file...');
+                    // Simulate processing with sample file
+                    setTimeout(() => {
+                        window.location.href = 'processing.html';
+                    }, 1000);
+                });
+            }
+
+            // Setup drop zone for sidebar variant
+            const dropZone = document.getElementById('drop-zone-sidebar');
+            const fileInput = document.getElementById('file-input-sidebar');
+            const browseBtn = document.getElementById('browse-files-sidebar');
+            const recordBtn = document.getElementById('record-audio-sidebar');
+
+            if (browseBtn && fileInput) {
+                browseBtn.addEventListener('click', () => {
+                    fileInput.click();
+                });
+
+                fileInput.addEventListener('change', (e) => {
+                    const files = e.target.files;
+                    if (files.length > 0) {
+                        console.log('File selected:', files[0].name);
+                        // Redirect to processing
+                        window.location.href = 'processing.html';
+                    }
+                });
+            }
+
+            if (recordBtn) {
+                recordBtn.addEventListener('click', () => {
+                    window.location.href = 'recording.html';
+                });
+            }
+
+            // Drag and drop for sidebar variant
+            if (dropZone) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => {
+                        dropZone.classList.add('drag-over');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, () => {
+                        dropZone.classList.remove('drag-over');
+                    });
+                });
+
+                dropZone.addEventListener('drop', (e) => {
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        console.log('File dropped:', files[0].name);
+                        window.location.href = 'processing.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

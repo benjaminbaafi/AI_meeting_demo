@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Share Results - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    
+    <!-- Modal Backdrop -->
+    <div id="share-modal-backdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden"></div>
+    
+    <!-- Share Modal Container -->
+    <div class="relative flex h-auto min-h-screen w-full flex-col items-center justify-center p-4 sm:p-6 overflow-x-hidden">
+        <div class="layout-container flex h-full w-full max-w-2xl grow flex-col">
+            
+            <!-- Share Modal Card -->
+            <div class="flex flex-col rounded-xl border border-zinc-200/50 bg-white p-6 shadow-xl dark:border-zinc-800/50 dark:bg-zinc-900/50 sm:p-8 fade-in">
+                
+                <!-- Header -->
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex flex-col gap-1">
+                        <h2 class="text-2xl font-bold tracking-tight text-slate-800 dark:text-white">Share Results</h2>
+                        <p class="text-sm font-normal text-slate-500 dark:text-zinc-400">Share your transcription via a link or directly to your favorite apps.</p>
+                    </div>
+                    <button id="close-share-modal" class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 transition-colors">
+                        <span class="material-symbols-outlined text-xl">close</span>
+                    </button>
+                </div>
+
+                <!-- Content -->
+                <div class="mt-8 flex flex-col gap-6">
+                    
+                    <!-- Shareable Link Section -->
+                    <div>
+                        <h3 class="text-base font-bold leading-tight tracking-[-0.015em] text-slate-800 dark:text-white">Shareable Link</h3>
+                        <p class="pt-1 text-sm font-normal leading-normal text-slate-500 dark:text-zinc-400">Anyone with this link can view the results.</p>
+                        
+                        <div class="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <input 
+                                id="share-link-input"
+                                class="form-input h-10 flex-1 rounded-lg border border-zinc-300 bg-white p-2.5 text-sm font-normal text-slate-800 placeholder:text-slate-500 focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white" 
+                                readonly 
+                                value="https://transcribeai.app/results/a1b2-c3d4-e5f6"
+                            />
+                            <button id="copy-link-btn" class="flex h-10 w-full min-w-[84px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-bold leading-normal tracking-[0.015em] text-white hover:bg-primary/90 transition-colors sm:w-auto">
+                                <span class="material-symbols-outlined text-base">link</span>
+                                <span class="truncate">Copy Link</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="h-px w-full bg-zinc-200 dark:bg-zinc-800"></div>
+
+                    <!-- Direct Share Section -->
+                    <div>
+                        <h3 class="text-base font-bold leading-tight tracking-[-0.015em] text-slate-800 dark:text-white">Share directly to...</h3>
+                        
+                        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                            
+                            <!-- Notion Button -->
+                            <button id="share-notion-btn" class="flex h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700/50 transition-colors">
+                                <img alt="Notion logo" class="h-5 w-5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrGn0WSQwDv1MT3FiROUxi9ZrHrMFKHVeopNlJBGlmLJZYW1OBLz5e6ft-7UJCThHA55lJHZlqf5AYsDfbdtaW50e5G8xDX3ZxRm5HuL-tqifADH_QaQwf9u8KjXQpoeFVr_Iz3hrT4wWijQ_Zfs_zMLMztD-MXXVy6L8xPlBRTk0oX7EJncPLPN6HzX62NdJAVSMF-mY_Lbn5tpTum-sk6swhETaUYrUdaCvWzd6YhNQP8518j7DqLNYNrf_TNlM2DZJYrxtxplM"/>
+                                <span>Notion</span>
+                            </button>
+
+                            <!-- Slack Button -->
+                            <button id="share-slack-btn" class="flex h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700/50 transition-colors">
+                                <img alt="Slack logo" class="h-5 w-5 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1U8R6siXBTDV0i6h5rp_89XUdOvQQiUuVq52FBW3T_AQV1NwVvrU4bDotSKJ7b8uAZYRfmBWffbBhTtuVJrm6FXZwsKtaLfqU4kfojWU9erKN4MZ-0lYmbFYjuhrVuDYdBgc_cIZf2c_byajXorOVhf5_WQN8GEgZWv03nBTsm8hj9bEfjQraQthaiVMQ1pJgiuJdLNhe_yv9Ztslhl7BS7Htr_gYIPGVZZjvuVmfl9_H7y-prWvUZwAoumTbS8LLyFimLHLYPMg"/>
+                                <span>Slack</span>
+                            </button>
+
+                            <!-- Email Button -->
+                            <button id="share-email-btn" class="flex h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700/50 transition-colors">
+                                <span class="material-symbols-outlined text-lg">mail</span>
+                                <span>Email</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- Additional Options -->
+                    <div>
+                        <h3 class="text-base font-bold leading-tight tracking-[-0.015em] text-slate-800 dark:text-white mb-3">Export Options</h3>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <button id="export-pdf-btn" class="flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700/50 transition-colors">
+                                <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                                <span>Export as PDF</span>
+                            </button>
+                            <button id="export-txt-btn" class="flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700/50 transition-colors">
+                                <span class="material-symbols-outlined text-base">description</span>
+                                <span>Export as TXT</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/share.js"></script>
+</body>
+</html>

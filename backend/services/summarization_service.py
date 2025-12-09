@@ -266,11 +266,36 @@ class SummarizationService:
             action_items = []
             for item_data in result.get("action_items", []):
                 try:
+                    # Validate description
+                    description = item_data.get("description", "").strip()
+                    if not description:
+                        logger.warning("Skipping action item with empty description")
+                        continue
+                    
+                    # Normalize priority value to lowercase
+                    priority_value = item_data.get("priority", "medium")
+                    if isinstance(priority_value, str):
+                        priority_value = priority_value.lower()
+                    
+                    # Validate priority is a valid enum value
+                    valid_priorities = ["urgent", "high", "medium", "normal", "low"]
+                    if priority_value not in valid_priorities:
+                        logger.warning(f"Invalid priority '{priority_value}', defaulting to 'medium'")
+                        priority_value = "medium"
+                    
+                    # Handle deadline - only accept valid datetime strings, ignore relative dates
+                    deadline = item_data.get("deadline")
+                    if deadline and isinstance(deadline, str):
+                        # Skip relative dates like "Within 10 days"
+                        if any(word in deadline.lower() for word in ["within", "days", "weeks", "months", "soon", "asap"]):
+                            logger.warning(f"Skipping relative deadline: {deadline}")
+                            deadline = None
+                    
                     action_item = ActionItem(
-                        description=item_data.get("description", ""),
+                        description=description,
                         assignee=item_data.get("assignee"),
-                        deadline=item_data.get("deadline"),
-                        priority=ActionItemPriority(item_data.get("priority", "medium")),
+                        deadline=deadline,
+                        priority=ActionItemPriority(priority_value),
                         notes=item_data.get("notes"),
                     )
                     action_items.append(action_item)

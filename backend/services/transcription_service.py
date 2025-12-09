@@ -235,6 +235,19 @@ class TranscriptionService:
         segments = []
         
         for idx, seg in enumerate(raw_segments):
+            # Skip segments with empty text or invalid timestamps
+            text = seg.get("text", "").strip()
+            start_time = seg.get("start", 0.0)
+            end_time = seg.get("end", 0.0)
+            
+            if not text:
+                logger.warning(f"Skipping segment {idx} with empty text")
+                continue
+                
+            if end_time <= start_time:
+                logger.warning(f"Skipping segment {idx} with invalid timestamps: start={start_time}, end={end_time}")
+                continue
+            
             # Create speaker (Whisper doesn't provide speaker diarization natively)
             speaker = Speaker(
                 speaker_id=f"speaker_{idx % len(participants) if participants else 0}",
@@ -243,10 +256,10 @@ class TranscriptionService:
             )
             
             segment = TranscriptSegment(
-                start_time=seg["start"],
-                end_time=seg["end"],
+                start_time=start_time,
+                end_time=end_time,
                 speaker=speaker,
-                text=seg["text"].strip(),
+                text=text,
                 confidence=1.0 - seg.get("no_speech_prob", 0.0),  # Convert to confidence
             )
             

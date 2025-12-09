@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Processing - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        /* Pulsing animation for the graphic equalizer icon */
+        @keyframes pulse-icon {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+        }
+        
+        .animate-pulse-icon {
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+        
+        /* Progress bar animation */
+        @keyframes progress-pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+        
+        .progress-bar-animated {
+            animation: progress-pulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex min-h-screen w-full flex-col">
+        
+        <!-- Header -->
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-6 sm:px-10 lg:px-20 py-4">
+            <div class="flex items-center gap-4 text-slate-800 dark:text-white">
+                <div class="size-6 text-primary">
+                    <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <a href="../index.html" class="text-lg font-bold leading-tight tracking-[-0.015em]" style="text-decoration: none; color: inherit;">TranscribeAI</a>
+            </div>
+            <div class="flex items-center gap-4 sm:gap-6">
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="nav-link" href="../index.html">Home</a>
+                    <a class="nav-link" href="transcriptions.html">My Files</a>
+                    <a class="nav-link" href="upload.html">Upload</a>
+                    <a class="nav-link" href="account.html">Settings</a>
+                </nav>
+                <button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+                    <span class="material-symbols-outlined text-xl">notifications</span>
+                </button>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                    <span class="material-symbols-outlined">dark_mode</span>
+                </button>
+                <div class="user-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAjqeitjdC7iHr9nyGQDV2sQv-5mLzrQgDdgvD7NP84aaP_gf9fwIjnTRo-EPp6fvcZzf0nSTbnZzOcHcrfOiAfBScASgipxb-vIV_wOBSvLbRJjLWnxBqZgAwu_OnE02Ok-mXB3ZteLE2_2rBZJX_y9qfF_jssCE0jY4Lp-CedqsZO_mOnJj_fFOhGoZGEg82lQCHWmJyX1lmhRHmNGiqcHP8g8w3ji7LV3vxh-3_n1Oa9RT5BQZ5N74mPuCjqk_Fql4-GaIZc2_k");' title="User Profile"></div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex flex-1 items-center justify-center py-10 px-4">
+            <div class="w-full max-w-2xl mx-auto flex flex-col items-center fade-in">
+                
+                <!-- Animated Icon -->
+                <div class="flex items-center justify-center w-24 h-24 mb-6 rounded-full bg-primary/10 animate-pulse-icon">
+                    <div class="flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 text-primary">
+                        <span class="material-symbols-outlined text-4xl">graphic_eq</span>
+                    </div>
+                </div>
+
+                <!-- Title & Description -->
+                <h1 class="text-slate-800 dark:text-white tracking-tight text-3xl sm:text-4xl font-bold leading-tight px-4 text-center pb-3">
+                    Analyzing your file...
+                </h1>
+                <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal pb-8 pt-1 px-4 text-center max-w-md">
+                    Feel free to navigate away, we'll notify you when it's ready.
+                </p>
+
+                <!-- Progress Card -->
+                <div class="w-full card">
+                    <!-- Progress Header -->
+                    <div class="flex flex-col gap-4">
+                        <div class="progress-header">
+                            <p class="progress-title text-sm">Estimated time remaining: About 2 minutes</p>
+                            <p class="text-primary text-sm font-bold leading-normal">75%</p>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="progress-bar-bg">
+                            <div id="progress-bar" class="progress-bar-fill progress-bar-animated" style="width: 75%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Processing Steps -->
+                    <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+                        <div class="space-y-3">
+                            <!-- Step 1: Completed -->
+                            <label class="flex gap-x-3 items-center">
+                                <input 
+                                    checked 
+                                    class="h-5 w-5 rounded-full border-gray-300 dark:border-gray-600 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 disabled:opacity-100" 
+                                    disabled 
+                                    type="checkbox"
+                                />
+                                <p class="text-slate-800 dark:text-white text-base font-normal leading-normal">Uploading file...</p>
+                            </label>
+
+                            <!-- Step 2: Completed -->
+                            <label class="flex gap-x-3 items-center">
+                                <input 
+                                    checked 
+                                    class="h-5 w-5 rounded-full border-gray-300 dark:border-gray-600 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 disabled:opacity-100" 
+                                    disabled 
+                                    type="checkbox"
+                                />
+                                <p class="text-slate-800 dark:text-white text-base font-normal leading-normal">Transcribing audio...</p>
+                            </label>
+
+                            <!-- Step 3: In Progress -->
+                            <label class="flex gap-x-3 items-center">
+                                <input 
+                                    checked 
+                                    class="h-5 w-5 rounded-full border-gray-300 dark:border-gray-600 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 disabled:opacity-100" 
+                                    disabled 
+                                    type="checkbox"
+                                />
+                                <p class="text-primary font-medium text-base leading-normal">Analyzing content...</p>
+                            </label>
+
+                            <!-- Step 4: Pending -->
+                            <label class="flex gap-x-3 items-center opacity-60">
+                                <input 
+                                    class="h-5 w-5 rounded-full border-gray-300 dark:border-gray-600 bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0" 
+                                    disabled 
+                                    type="checkbox"
+                                />
+                                <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">Generating summary &amp; action items...</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cancel Button -->
+                <div class="mt-8">
+                    <button id="cancel-btn" class="flex items-center justify-center h-10 px-6 text-sm font-bold text-gray-500 dark:text-gray-400 bg-transparent rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/processing.js"></script>
+</body>
+</html>

@@ -84,14 +84,14 @@ class AzureOpenAIService:
                 "segments": [
                     {
                         "id": getattr(seg, 'id', idx),
-                        "start": getattr(seg, 'start', seg.get('start', 0)),
-                        "end": getattr(seg, 'end', seg.get('end', 0)),
-                        "text": getattr(seg, 'text', seg.get('text', '')),
-                        "tokens": getattr(seg, 'tokens', seg.get('tokens', [])),
-                        "temperature": getattr(seg, 'temperature', seg.get('temperature', 0)),
-                        "avg_logprob": getattr(seg, 'avg_logprob', seg.get('avg_logprob', 0)),
-                        "compression_ratio": getattr(seg, 'compression_ratio', seg.get('compression_ratio', 0)),
-                        "no_speech_prob": getattr(seg, 'no_speech_prob', seg.get('no_speech_prob', 0)),
+                        "start": getattr(seg, 'start', 0.0),
+                        "end": getattr(seg, 'end', 0.0),
+                        "text": getattr(seg, 'text', ''),
+                        "tokens": getattr(seg, 'tokens', []),
+                        "temperature": getattr(seg, 'temperature', 0.0),
+                        "avg_logprob": getattr(seg, 'avg_logprob', 0.0),
+                        "compression_ratio": getattr(seg, 'compression_ratio', 0.0),
+                        "no_speech_prob": getattr(seg, 'no_speech_prob', 0.0),
                     }
                     for idx, seg in enumerate(response.segments)
                 ],

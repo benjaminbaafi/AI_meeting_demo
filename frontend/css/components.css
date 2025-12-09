@@ -1,0 +1,309 @@
+/* ================================================
+   TranscribeAI - Component Styles
+   ================================================ */
+
+/* ================================================
+   Header & Navigation
+   ================================================ */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+}
+
+.site-header .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--color-text-primary);
+}
+
+.site-header .logo-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--color-primary);
+}
+
+.site-header .logo-text {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+}
+
+.site-header .nav-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-header .nav-link {
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.site-header .nav-link:hover {
+    color: var(--color-primary);
+}
+
+.site-header .user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 640px) {
+    .site-header .nav-link {
+        display: none;
+    }
+    
+    .site-header .nav-link.mobile-show {
+        display: block;
+    }
+}
+
+/* ================================================
+   Buttons
+   ================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 84px;
+    max-width: 480px;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: var(--radius-default);
+    font-weight: 700;
+    letter-spacing: 0.015em;
+    text-decoration: none;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    height: 2.5rem;
+    padding: 0 1rem;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 0.875rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    height: 2.5rem;
+    padding: 0 1rem;
+    background-color: #f1f5f9;
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+}
+
+.dark .btn-secondary {
+    background-color: #334155;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #e2e8f0;
+}
+
+.dark .btn-secondary:hover {
+    background-color: #475569;
+}
+
+.btn-large {
+    height: 3rem;
+    padding: 0 1.25rem;
+    font-size: 1rem;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* ================================================
+   Cards & Surfaces
+   ================================================ */
+.card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+}
+
+.dark .card {
+    background-color: rgba(148, 163, 184, 0.05);
+    border-color: var(--color-border);
+}
+
+/* ================================================
+   Upload/Drop Zone
+   ================================================ */
+.upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 3.5rem 1.5rem;
+    border-radius: var(--radius-default);
+    border: 2px dashed var(--color-border-dashed);
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.upload-zone:hover,
+.upload-zone.drag-over {
+    border-color: var(--color-primary);
+    background-color: rgba(36, 99, 235, 0.05);
+}
+
+.upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--radius-full);
+    background-color: rgba(36, 99, 235, 0.1);
+    color: var(--color-primary);
+}
+
+.upload-icon .material-symbols-outlined {
+    font-size: 2.5rem !important;
+}
+
+.upload-text-primary {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-align: center;
+    max-width: 480px;
+}
+
+.upload-text-secondary {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 480px;
+}
+
+.upload-text-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 480px;
+    opacity: 0.7;
+}
+
+/* ================================================
+   Progress Bar
+   ================================================ */
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.progress-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+.progress-percentage {
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 0.5rem;
+    background-color: #e2e8f0;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.dark .progress-bar-bg {
+    background-color: #334155;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+}
+
+.progress-filename {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
+/* ================================================
+   Theme Toggle
+   ================================================ */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-default);
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.theme-toggle .material-symbols-outlined {
+    color: var(--color-text-primary);
+}
+
+/* ================================================
+   Utility Classes
+   ================================================ */
+.text-center {
+    text-align: center;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.gap-sm { gap: 0.5rem; }
+.gap-md { gap: 1rem; }
+.gap-lg { gap: 1.5rem; }
+.gap-xl { gap: 2rem; }

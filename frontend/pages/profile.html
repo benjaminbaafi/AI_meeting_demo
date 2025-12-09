@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Account Settings - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    <link href="../css/sidebar.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="flex flex-row min-h-screen">
+            
+            <!-- Sidebar Navigation -->
+            <div class="w-64 bg-white dark:bg-background-dark border-r border-gray-200 dark:border-gray-800 p-4 shrink-0">
+                <div class="flex h-full min-h-[700px] flex-col justify-between">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-3 px-3 py-2">
+                            <span class="material-symbols-outlined text-primary text-3xl">equalizer</span>
+                            <h1 class="text-slate-800 dark:text-white text-lg font-bold">TranscribeAI</h1>
+                        </div>
+                        <div class="flex flex-col gap-2 mt-4">
+                            <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="../index.html" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">dashboard</span>
+                                <p class="text-sm font-medium">Dashboard</p>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="upload.html" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">upload_file</span>
+                                <p class="text-sm font-medium">Upload</p>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="recording.html" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">mic</span>
+                                <p class="text-sm font-medium">Recordings</p>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="transcriptions.html" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">folder_open</span>
+                                <p class="text-sm font-medium">My Library</p>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="#" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">group</span>
+                                <p class="text-sm font-medium">Team</p>
+                            </a>
+                            <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="profile.html" style="text-decoration: none;">
+                                <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+                                <p class="text-primary text-sm font-bold">Profile</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <div class="flex items-center gap-3 px-3 py-2">
+                            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAv-fHYkMfPZ44E7Wsapm7FAYO_f-mLWv6fkKrwP78p8XFUeOzJ6Dc9GDNHzYsSmK8AJiSXKZTlidJDObXK0BjHR9wf21mLI0XIbU-vMzG-QZE1E9w4iatuHQ1rTOdT7xmp6pEc_cFEUhCV17hq1arVbz5mAU7fi5553mpQzY-mkoetem2Thr34XIAsf0lBJ4JJphxezwn-gTVt9uidMlp8H6PCVrHxKMquLFGIaiAZBcLTWSu5CaGoXATPSUNmQkvkj4KQJCkZpqo");'></div>
+                            <div class="flex flex-col">
+                                <h1 class="text-slate-800 dark:text-white text-base font-medium leading-normal">Alex Chen</h1>
+                                <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal">alex.chen@email.com</p>
+                            </div>
+                        </div>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="settings.html" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">settings</span>
+                            <p class="text-sm font-medium">Settings</p>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300" href="#" style="text-decoration: none;">
+                            <span class="material-symbols-outlined text-gray-500 dark:text-gray-400">logout</span>
+                            <p class="text-sm font-medium">Log Out</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-8">
+                <div class="max-w-4xl mx-auto">
+                    
+                    <!-- Page Heading -->
+                    <div class="flex flex-wrap justify-between gap-3 mb-6">
+                        <h1 class="text-slate-800 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Account Settings</h1>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="pb-3 mb-6">
+                        <div class="flex border-b border-gray-200 dark:border-gray-700 gap-8 overflow-x-auto">
+                            <a id="tab-profile" class="tab-link flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4 cursor-pointer whitespace-nowrap" data-tab="profile">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Profile</p>
+                            </a>
+                            <a id="tab-billing" class="tab-link flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-[13px] pt-4 cursor-pointer whitespace-nowrap" data-tab="billing">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Plan & Billing</p>
+                            </a>
+                            <a id="tab-usage" class="tab-link flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-[13px] pt-4 cursor-pointer whitespace-nowrap" data-tab="usage">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Usage</p>
+                            </a>
+                            <a id="tab-security" class="tab-link flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-[13px] pt-4 cursor-pointer whitespace-nowrap" data-tab="security">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Security</p>
+                            </a>
+                            <a id="tab-integrations" class="tab-link flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 pb-[13px] pt-4 cursor-pointer whitespace-nowrap" data-tab="integrations">
+                                <p class="text-sm font-bold leading-normal tracking-[0.015em]">Integrations</p>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div id="tab-content">
+                        
+                        <!-- Profile Tab -->
+                        <div id="content-profile" class="tab-content space-y-8">
+                            <!-- Profile Header -->
+                            <div class="flex p-4">
+                                <div class="flex w-full flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+                                    <div class="flex gap-4 items-center">
+                                        <div id="profile-avatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-24 w-24" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDMO51a7okLRYOa0ogS1tFL-DzHd6ACb6hRJFezngrFX-ynVudlc0pykY-jR_dCHsjRy7Jz90hUsJdjIhkhqlUe5scCyOPuvlj2-J5GUyAusIChjWWpGRu8hJawNKRX9L8VZifeiJEqiTDFd9QyOIR8-NTbxA0gHCxoWrYJXx0hy5wyGFhMm-_ONVc7qc1ifS4uSVW5gvIMUihF8SBEUgH-TMzxtNwA0DI4mZIGO08RNXl7II4lzVniICGX7ZrrEi8fgWPmk0qA20I");'></div>
+                                        <div class="flex flex-col justify-center">
+                                            <p id="profile-display-name" class="text-slate-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Alex Chen</p>
+                                            <p id="profile-display-email" class="text-slate-500 dark:text-gray-400 text-base font-normal leading-normal">alex.chen@email.com</p>
+                                        </div>
+                                    </div>
+                                    <button id="upload-photo-btn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-gray-800 text-slate-800 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                        <span class="truncate">Upload Photo</span>
+                                    </button>
+                                    <input type="file" id="photo-upload-input" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+
+                            <!-- Personal Information Card -->
+                            <div class="bg-white dark:bg-background-dark/50 border border-gray-200 dark:border-gray-800 rounded-xl">
+                                <div class="p-6 border-b border-gray-200 dark:border-gray-800">
+                                    <h3 class="text-lg font-bold text-slate-800 dark:text-white">Personal Information</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Update your personal details here.</p>
+                                </div>
+                                <div class="p-6">
+                                    <form id="profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <label class="flex flex-col col-span-1">
+                                            <p class="text-slate-800 dark:text-gray-200 text-sm font-medium leading-normal pb-2">Full Name</p>
+                                            <input id="input-fullname" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-12 placeholder:text-gray-400 p-[15px] text-base font-normal leading-normal" value="Alex Chen"/>
+                                        </label>
+                                        <label class="flex flex-col col-span-1">
+                                            <p class="text-slate-800 dark:text-gray-200 text-sm font-medium leading-normal pb-2">Email Address</p>
+                                            <input id="input-email" type="email" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-12 placeholder:text-gray-400 p-[15px] text-base font-normal leading-normal" value="alex.chen@email.com"/>
+                                        </label>
+                                    </form>
+                                </div>
+                                <div class="px-6 py-4 bg-gray-50 dark:bg-background-dark/20 border-t border-gray-200 dark:border-gray-800 rounded-b-xl flex justify-end items-center gap-3">
+                                    <button id="cancel-profile-btn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-gray-800 text-slate-800 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                        <span class="truncate">Cancel</span>
+                                    </button>
+                                    <button id="save-profile-btn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+                                        <span class="truncate">Save Changes</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Delete Account Card -->
+                            <div class="bg-white dark:bg-background-dark/50 border border-red-200 dark:border-red-900/50 rounded-xl">
+                                <div class="p-6">
+                                    <h3 class="text-lg font-bold text-red-600 dark:text-red-500">Delete Account</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Permanently delete your account and all of your content. This action is not reversible.</p>
+                                </div>
+                                <div class="px-6 py-4 bg-red-50 dark:bg-red-900/10 border-t border-red-200 dark:border-red-900/50 rounded-b-xl flex justify-end">
+                                    <button id="delete-account-btn" class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-red-600 text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-red-700 transition-colors">
+                                        <span class="truncate">Delete My Account</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other tabs placeholders -->
+                        <div id="content-billing" class="tab-content hidden">
+                            <div class="bg-white dark:bg-background-dark/50 border border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center">
+                                <span class="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-700">payments</span>
+                                <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-4">Plan & Billing</h3>
+                                <p class="text-gray-500 dark:text-gray-400 mt-2">Billing information coming soon</p>
+                            </div>
+                        </div>
+
+                        <div id="content-usage" class="tab-content hidden">
+                            <div class="bg-white dark:bg-background-dark/50 border border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center">
+                                <span class="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-700">monitoring</span>
+                                <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-4">Usage Statistics</h3>
+                                <p class="text-gray-500 dark:text-gray-400 mt-2">Usage details coming soon</p>
+                            </div>
+                        </div>
+
+                        <div id="content-security" class="tab-content hidden">
+                            <div class="bg-white dark:bg-background-dark/50 border border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center">
+                                <span class="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-700">security</span>
+                                <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-4">Security Settings</h3>
+                                <p class="text-gray-500 dark:text-gray-400 mt-2">Security options coming soon</p>
+                            </div>
+                        </div>
+
+                        <div id="content-integrations" class="tab-content hidden">
+                            <div class="bg-white dark:bg-background-dark/50 border border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center">
+                                <span class="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-700">extension</span>
+                                <h3 class="text-xl font-bold text-slate-800 dark:text-white mt-4">Integrations</h3>
+                                <p class="text-gray-500 dark:text-gray-400 mt-2">Integration options coming soon</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

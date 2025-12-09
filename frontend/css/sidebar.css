@@ -1,0 +1,111 @@
+/* ================================================
+   Sidebar Navigation Styles
+   ================================================ */
+
+.sidebar {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    padding: 1rem;
+    width: 16rem;
+    flex-shrink: 0;
+}
+
+.dark .sidebar {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+}
+
+/* Sidebar Links */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-default);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background-color: #f1f5f9;
+    color: var(--color-text-primary);
+}
+
+.dark .sidebar-link:hover {
+    background-color: #1e293b;
+    color: var(--color-text-primary);
+}
+
+.sidebar-link.active {
+    background-color: rgba(36, 99, 235, 0.1);
+    color: var(--color-primary);
+}
+
+.dark .sidebar-link.active {
+    background-color: rgba(36, 99, 235, 0.2);
+    color: var(--color-primary);
+}
+
+.sidebar-link .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -16rem;
+        top: 0;
+        bottom: 0;
+        z-index: 50;
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.open {
+        left: 0;
+    }
+}
+
+/* Use Case Cards (specific to sidebar layout) */
+.use-case-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+}
+
+.use-case-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.dark .use-case-card {
+    background-color: #0f172a;
+    border-color: var(--color-border);
+}
+
+/* Icon Container in Use Cases */
+.use-case-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-full);
+    background-color: rgba(36, 99, 235, 0.1);
+}
+
+.use-case-icon .material-symbols-outlined {
+    color: var(--color-primary);
+    font-size: 24px;
+}

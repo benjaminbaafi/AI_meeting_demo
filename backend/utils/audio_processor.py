@@ -1,7 +1,3 @@
-"""
-Audio processing utilities.
-Handles audio extraction from video, format conversion, and quality enhancement.
-"""
 import subprocess
 import shutil
 import os
@@ -65,9 +61,6 @@ class AudioProcessor:
             logger.info(f"Audio extracted: {output_path} ({duration:.2f}s)")
             return output_path, duration
             
-        except ffmpeg.Error as e:
-            logger.error(f"FFmpeg error: {e.stderr.decode() if e.stderr else str(e)}")
-            raise Exception(f"Failed to extract audio: {str(e)}")
         except Exception as e:
             logger.error(f"Audio extraction failed: {str(e)}")
             raise

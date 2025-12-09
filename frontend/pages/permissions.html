@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Manage Permissions - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex min-h-screen w-full flex-col items-center justify-center p-4 sm:p-6 md:p-8">
+        <div class="w-full max-w-3xl rounded-xl bg-white dark:bg-[#1C202F] shadow-lg border border-gray-200 dark:border-gray-700/50">
+            
+            <!-- Header -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-6 border-b border-gray-200 dark:border-gray-700/50">
+                <div class="flex flex-col gap-1">
+                    <h1 class="text-gray-900 dark:text-white tracking-tight text-xl font-bold leading-tight">Share 'Project Kickoff Meeting'</h1>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Manage who has access to this file.</p>
+                </div>
+                <button id="close-permissions-modal" class="flex h-9 w-9 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 space-y-6">
+                
+                <!-- Invite Section -->
+                <div>
+                    <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal pb-2">Invite people and groups</p>
+                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                        
+                        <!-- Email Input -->
+                        <div class="relative flex-1 w-full">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">group_add</span>
+                            <input 
+                                id="invite-email-input"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50 focus:border-primary h-12 placeholder:text-gray-500 dark:placeholder:text-gray-400 pl-11 pr-4 py-2 text-sm font-normal leading-normal" 
+                                placeholder="Enter email addresses..."
+                            />
+                        </div>
+
+                        <!-- Role Selector -->
+                        <div class="relative w-full sm:w-auto">
+                            <select id="invite-role-select" class="form-select flex w-full cursor-pointer items-center justify-between overflow-hidden rounded-lg h-12 px-4 bg-gray-100 dark:bg-gray-800/50 text-gray-900 dark:text-white text-sm font-medium leading-normal border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-0 focus:ring-2 focus:ring-primary/50 appearance-none pr-10">
+                                <option value="editor">Editor</option>
+                                <option value="viewer">Viewer</option>
+                            </select>
+                            <span class="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">expand_more</span>
+                        </div>
+
+                        <!-- Invite Button -->
+                        <button id="invite-btn" class="flex w-full sm:w-auto min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors">
+                            <span class="truncate">Invite</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Collaborators List -->
+                <div class="space-y-2">
+                    <h3 class="text-gray-900 dark:text-white text-base font-bold leading-tight tracking-[-0.015em] pt-2">People with access</h3>
+                    
+                    <div id="collaborators-list" class="space-y-1">
+                        <!-- Owner (Current User) -->
+                        <div class="flex items-center gap-4 bg-transparent min-h-[64px] py-2 justify-between">
+                            <div class="flex items-center gap-4">
+                                <img class="rounded-full h-10 w-10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi0iffY5wOraXBJ1AOPiOC6rLHcfNqpS6oCy1MCk73XS3D6-ZLoiegcFJ7GkpNu7F4PcesbnSjM2S28uhbaL4dkUi33CDKBV1LyWQPy6V5mng4NSCytRqJCtjZj7gyXaVgKMWaWtkmNYU8v4v_re9DgnahdRNcj85y8lBpTsfn6jtqRfeR2FSI8NVBzqRsS0DIibXSZ0xVwdpL_HfV2RAV64eUHjAssIAAqmB9h0-HjMyWfmYxk5LbWVN37H7apMd5h7mVZmyv1RU"/>
+                                <div class="flex flex-col justify-center">
+                                    <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal line-clamp-1">You (Amelia Chen)</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">amelia.chen@example.com</p>
+                                </div>
+                            </div>
+                            <div class="shrink-0">
+                                <p class="text-gray-600 dark:text-gray-300 text-sm font-normal leading-normal">Owner</p>
+                            </div>
+                        </div>
+
+                        <!-- Editor -->
+                        <div class="flex items-center gap-4 bg-transparent min-h-[64px] py-2 justify-between collaborator-item" data-user-id="user-1" data-role="editor">
+                            <div class="flex items-center gap-4">
+                                <img class="rounded-full h-10 w-10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSFQnekJFYV8PY5iwjHrrRrhvJZGyzYl8F1iK_dLALAwr8t0BJ1OeTLc03sjL1UIELFp75t98hJfNCMi3f59JhdXqpbVzgNn4Ys0I5ShXyRuxSGGaL5MmRk0Prgb9FUG32MetjEir1P2Oxe6h0BxNuLt54l803DT4J4MvneQVrXpoOZAbkTuCuamBQE9-ctoaUvFlPD6l-nMffgXWionbl98G9BpbiDpCG-wvuBcH32suBNJaQlwFdkMGtHyKTHi1ymbw9ppmI5F8"/>
+                                <div class="flex flex-col justify-center">
+                                    <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal line-clamp-1">Benjamin Carter</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">ben.carter@example.com</p>
+                                </div>
+                            </div>
+                            <div class="relative shrink-0 role-selector-container">
+                                <select class="role-select form-select flex w-full cursor-pointer items-center justify-between overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-gray-800/50 text-gray-900 dark:text-white text-sm font-medium leading-normal border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-0 focus:ring-2 focus:ring-primary/50 appearance-none pr-10">
+                                    <option value="editor" selected>Editor</option>
+                                    <option value="viewer">Viewer</option>
+                                    <option value="remove">Remove access</option>
+                                </select>
+                                <span class="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">expand_more</span>
+                            </div>
+                        </div>
+
+                        <!-- Viewer -->
+                        <div class="flex items-center gap-4 bg-transparent min-h-[64px] py-2 justify-between collaborator-item" data-user-id="user-2" data-role="viewer">
+                            <div class="flex items-center gap-4">
+                                <img class="rounded-full h-10 w-10 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF4Dz3_fD3eBxTJdQMfk6Kl4mgfPk97UKkAOxs8Igk3t6CYuKh11gncL-YEdhLAZvT1r3kTM_ylQTB7DjYZTrpAAubaLe2s16wxTJgU-Ta9gj9u3XUcMvdxeGH8dRoG5yNKdGs0wZThUO4PV4b8-Lbja8k7Jvh7Rf0mo-zlNnVLYNsdkgBTfdF_O1Mx9Hr4s26v_ARNty9UbSP6-PEjXiGxxDKHNloYdLQxbnnP3u7cLJThxbG-m3QNB49R-jHGlLaVC61KXmQ-p0"/>
+                                <div class="flex flex-col justify-center">
+                                    <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal line-clamp-1">Olivia Rodriguez</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">olivia.r@example.com</p>
+                                </div>
+                            </div>
+                            <div class="relative shrink-0 role-selector-container">
+                                <select class="role-select form-select flex w-full cursor-pointer items-center justify-between overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-gray-800/50 text-gray-900 dark:text-white text-sm font-medium leading-normal border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-0 focus:ring-2 focus:ring-primary/50 appearance-none pr-10">
+                                    <option value="editor">Editor</option>
+                                    <option value="viewer" selected>Viewer</option>
+                                    <option value="remove">Remove access</option>
+                                </select>
+                                <span class="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- General Access Settings -->
+                <div class="space-y-3 pt-2">
+                    <h3 class="text-gray-900 dark:text-white text-base font-bold leading-tight tracking-[-0.015em]">General access</h3>
+                    <div class="flex items-start gap-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/20">
+                            <span class="material-symbols-outlined text-primary dark:text-blue-300 text-2xl">public</span>
+                        </div>
+                        <div class="flex-1">
+                            <select id="general-access-select" class="form-select w-full rounded-lg border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50 text-gray-900 dark:text-white focus:border-primary focus:ring-primary/50 mb-1">
+                                <option value="public">Anyone with the link</option>
+                                <option value="restricted">Restricted</option>
+                            </select>
+                            <p id="general-access-description" class="text-gray-500 dark:text-gray-400 text-sm">Anyone on the internet with this link can view. No sign-in required.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 p-6 border-t border-gray-200 dark:border-gray-700/50">
+                <button id="copy-link-btn-footer" class="flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-sm font-medium text-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined text-base">link</span>
+                    <span class="truncate">Copy link</span>
+                </button>
+                <button id="done-btn" class="flex w-full sm:w-auto min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors">
+                    <span class="truncate">Done</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/permissions.js"></script>
+</body>
+</html>

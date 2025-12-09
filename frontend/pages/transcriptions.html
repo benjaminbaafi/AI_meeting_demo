@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>My Transcriptions - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="page-wrapper">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col w-full max-w-6xl flex-1 px-4 md:px-0">
+                    
+                    <!-- Header -->
+                    <header class="site-header">
+                        <div class="logo-section">
+                            <div class="logo-icon">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <a href="../index.html" class="logo-text" style="text-decoration: none; color: inherit;">TranscribeAI</a>
+                        </div>
+                        <div class="nav-section">
+                            <a class="nav-link active" href="transcriptions.html">My Transcriptions</a>
+                            <a class="nav-link" href="account.html">Account</a>
+                            <button class="btn btn-primary">
+                                <span class="truncate">Upgrade</span>
+                            </button>
+                            <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                                <span class="material-symbols-outlined">dark_mode</span>
+                            </button>
+                            <div class="user-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATmK7r-FeP53cWoSv-PgmIiiVMJS35Fl0vYrbopguwN7cRYzKhZesCxFmhK12Y0R5Y_YfQZ4f74w_ufNcmceBVqYgOs2MwSo91xuZ6n_o5fWCkAs5--zYCxP7Uo9ww8Yire4vBOhBzuKNXIx-lUrNsH6u8Z8ikXvZ7hHCPPp-J9rBVpgv-P1xBryJieIJrX4VuqxCk0JfCu6XMtbvOOeuA5RLzohHyLWmrWKdPyrDKp9zZzLX-JdN5ocw4FbS8m7lzGleJYXgTciY");' title="User Profile"></div>
+                        </div>
+                    </header>
+
+                    <!-- Main Content -->
+                    <main class="flex flex-col flex-1 p-4 sm:p-6">
+                        <div class="w-full mx-auto flex flex-col gap-8 fade-in">
+                            
+                            <!-- Page Header -->
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                <div>
+                                    <h1 class="text-slate-800 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">My Transcriptions</h1>
+                                    <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal mt-2">View and manage your transcription history</p>
+                                </div>
+                                <a href="upload.html" class="btn btn-primary btn-large">
+                                    <span class="material-symbols-outlined">add</span>
+                                    <span>New Transcription</span>
+                                </a>
+                            </div>
+
+                            <!-- Search & Filter -->
+                            <div class="card">
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <div class="flex-1">
+                                        <input type="text" placeholder="Search transcriptions..." class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                                    </div>
+                                    <select class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                                        <option>All Files</option>
+                                        <option>Audio Only</option>
+                                        <option>Video Only</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Transcriptions List -->
+                            <div class="flex flex-col gap-4">
+                                
+                                <!-- Sample Transcription Item 1 -->
+                                <div class="card hover:shadow-md transition-shadow">
+                                    <div class="flex flex-col sm:flex-row gap-4 items-start">
+                                        <div class="upload-icon flex-shrink-0">
+                                            <span class="material-symbols-outlined">description</span>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-slate-800 dark:text-white text-lg font-bold mb-1">Interview Session 01</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">interview_session_01.mp4 • 45:32 • Completed</p>
+                                            <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">This is a sample transcription of an interview session discussing product development strategies and market analysis...</p>
+                                        </div>
+                                        <div class="flex gap-2 flex-shrink-0">
+                                            <button class="btn btn-secondary" style="height: 2.5rem; min-width: auto; padding: 0 0.75rem;">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn btn-secondary" style="height: 2.5rem; min-width: auto; padding: 0 0.75rem;">
+                                                <span class="material-symbols-outlined">download</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sample Transcription Item 2 -->
+                                <div class="card hover:shadow-md transition-shadow">
+                                    <div class="flex flex-col sm:flex-row gap-4 items-start">
+                                        <div class="upload-icon flex-shrink-0">
+                                            <span class="material-symbols-outlined">description</span>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-slate-800 dark:text-white text-lg font-bold mb-1">Team Meeting Notes</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">meeting_audio.mp3 • 28:15 • Completed</p>
+                                            <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">Weekly team sync discussing project milestones, blockers, and upcoming deliverables for Q4...</p>
+                                        </div>
+                                        <div class="flex gap-2 flex-shrink-0">
+                                            <button class="btn btn-secondary" style="height: 2.5rem; min-width: auto; padding: 0 0.75rem;">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn btn-secondary" style="height: 2.5rem; min-width: auto; padding: 0 0.75rem;">
+                                                <span class="material-symbols-outlined">download</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Sample Transcription Item 3 -->
+                                <div class="card hover:shadow-md transition-shadow">
+                                    <div class="flex flex-col sm:flex-row gap-4 items-start">
+                                        <div class="upload-icon flex-shrink-0">
+                                            <span class="material-symbols-outlined">description</span>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-slate-800 dark:text-white text-lg font-bold mb-1">Podcast Episode 12</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">podcast_ep12.wav • 1:12:40 • Completed</p>
+                                            <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">Latest podcast episode featuring a discussion on AI technology trends and their impact on modern businesses...</p>
+                                        </div>
+                                        <div class="flex gap-2 flex-shrink-0">
+                                            <button class="btn btn-secondary" style="height: 2.5rem; min-width: auto; padding: 0 0.75rem;">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn btn-secondary" style="height: 2.5rem; min-width: auto; padding: 0 0.75rem;">
+                                                <span class="material-symbols-outlined">download</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Empty State (hidden when items exist) -->
+                                <!-- <div class="card text-center py-16" style="display: none;">
+                                    <div class="upload-icon mx-auto mb-4">
+                                        <span class="material-symbols-outlined">description</span>
+                                    </div>
+                                    <h3 class="text-slate-800 dark:text-white text-xl font-bold mb-2">No transcriptions yet</h3>
+                                    <p class="text-slate-500 dark:text-slate-400 mb-6">Start by uploading your first audio or video file</p>
+                                    <a href="upload.html" class="btn btn-primary btn-large inline-flex">
+                                        <span class="material-symbols-outlined">upload</span>
+                                        <span>Upload File</span>
+                                    </a>
+                                </div> -->
+
+                            </div>
+
+                        </div>
+                    </main>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+</body>
+</html>

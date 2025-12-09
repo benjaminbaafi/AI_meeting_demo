@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>History - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    <link href="../css/sidebar.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex min-h-screen w-full">
+        
+        <!-- History Sidebar -->
+        <aside class="flex flex-col w-80 bg-white dark:bg-[#1C2433] border-r border-gray-200 dark:border-gray-700 p-4 transition-all duration-300">
+            <div class="flex-grow flex flex-col gap-6">
+                
+                <!-- Header -->
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbswoYs6qvG2gCKi9OJoKkMFNJDJ2GoXMuyQtM36dqt_E4672-4CivaCZcZd2Xa6k3xVHwujSliLx2yRtTf3ARpGibE7YK8CAVoXqshuJUFu645wbSlOn6195L6ZumLFKiECyOlKGzAYGm3OygHmdwPPQPKx8p14sKEhoguZqNZFs3LfKurluGngmdvrF5t8hlNssIyBidvYGBLOMDgg6iGNxRhxpOwRkESPss9PlSQyIhcGSIWjN01xeC2PgA5x2L2divFzgh7WE");'></div>
+                        <div class="flex flex-col">
+                            <a href="../index.html" class="text-slate-800 dark:text-white text-base font-medium leading-normal" style="text-decoration: none;">TranscribeAI</a>
+                            <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal">AI Transcription</p>
+                        </div>
+                    </div>
+                    <button id="toggle-sidebar" class="text-slate-500 dark:text-gray-400 p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" title="Collapse sidebar">
+                        <span class="material-symbols-outlined">first_page</span>
+                    </button>
+                </div>
+
+                <!-- New Transcription Button -->
+                <a href="upload.html" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] gap-2 hover:bg-primary/90 transition-colors" style="text-decoration: none;">
+                    <span class="material-symbols-outlined text-base" style="font-variation-settings: 'wght' 600;">add_circle</span>
+                    <span class="truncate">New Transcription</span>
+                </a>
+
+                <!-- Search Bar -->
+                <div class="px-0 py-0">
+                    <label class="flex flex-col min-w-40 h-11 w-full">
+                        <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+                            <div class="text-slate-500 dark:text-gray-400 flex border-none bg-background-light dark:bg-background-dark items-center justify-center pl-3 rounded-l-lg border-r-0">
+                                <span class="material-symbols-outlined text-xl">search</span>
+                            </div>
+                            <input 
+                                id="history-search"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-800 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border-none bg-background-light dark:bg-background-dark h-full placeholder:text-slate-500 dark:placeholder:text-gray-400 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal" 
+                                placeholder="Search history..." 
+                            />
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-slate-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-2 text-left">Recent Files</h2>
+
+                <!-- File List -->
+                <div id="file-list" class="flex flex-col gap-1 overflow-y-auto">
+                    
+                    <!-- List Item 1 - Active -->
+                    <a href="results.html" class="file-item active" data-filename="ProjectAlpha_Meeting_Final.mp4" style="text-decoration: none;">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-lg"></div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-primary flex items-center justify-center rounded-lg bg-white dark:bg-background-dark shrink-0 size-12">
+                                <span class="material-symbols-outlined">videocam</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-slate-800 dark:text-white text-base font-medium leading-normal line-clamp-1">ProjectAlpha_Meeting_Final.mp4</p>
+                                <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">Processed</p>
+                            </div>
+                        </div>
+                        <div class="shrink-0">
+                            <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal">Today</p>
+                        </div>
+                    </a>
+
+                    <!-- List Item 2 -->
+                    <div class="file-item" data-filename="Client_Call_Q3_Review.wav">
+                        <div class="flex items-center gap-4">
+                            <div class="text-slate-800 dark:text-gray-300 flex items-center justify-center rounded-lg bg-background-light dark:bg-background-dark shrink-0 size-12">
+                                <span class="material-symbols-outlined">mic</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-slate-800 dark:text-white text-base font-medium leading-normal line-clamp-1">Client_Call_Q3_Review.wav</p>
+                                <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">Processed</p>
+                            </div>
+                        </div>
+                        <div class="shrink-0">
+                            <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal">Yesterday</p>
+                        </div>
+                    </div>
+
+                    <!-- List Item 3 -->
+                    <div class="file-item" data-filename="Product_Strategy_Session.m4a">
+                        <div class="flex items-center gap-4">
+                            <div class="text-slate-800 dark:text-gray-300 flex items-center justify-center rounded-lg bg-background-light dark:bg-background-dark shrink-0 size-12">
+                                <span class="material-symbols-outlined">mic</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-slate-800 dark:text-white text-base font-medium leading-normal line-clamp-1">Product_Strategy_Session.m4a</p>
+                                <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">Processed</p>
+                            </div>
+                        </div>
+                        <div class="shrink-0">
+                            <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal">Oct 28</p>
+                        </div>
+                    </div>
+
+                    <!-- List Item 4 -->
+                    <div class="file-item" data-filename="Onboarding_Walkthrough.mp4">
+                        <div class="flex items-center gap-4">
+                            <div class="text-slate-800 dark:text-gray-300 flex items-center justify-center rounded-lg bg-background-light dark:bg-background-dark shrink-0 size-12">
+                                <span class="material-symbols-outlined">videocam</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-slate-800 dark:text-white text-base font-medium leading-normal line-clamp-1">Onboarding_Walkthrough.mp4</p>
+                                <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal line-clamp-2">Processed</p>
+                            </div>
+                        </div>
+                        <div class="shrink-0">
+                            <p class="text-slate-500 dark:text-gray-400 text-sm font-normal leading-normal">Oct 25</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Sidebar Footer / Nav -->
+            <div class="flex flex-col gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 text-slate-800 dark:text-white" href="../index.html" style="text-decoration: none;">
+                    <span class="material-symbols-outlined text-slate-500 dark:text-gray-400">dashboard</span>
+                    <p class="text-sm font-medium leading-normal">Dashboard</p>
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 text-slate-800 dark:text-white" href="account.html" style="text-decoration: none;">
+                    <span class="material-symbols-outlined text-slate-500 dark:text-gray-400">settings</span>
+                    <p class="text-sm font-medium leading-normal">Settings</p>
+                </a>
+                <button id="theme-toggle-history" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 text-slate-800 dark:text-white text-left">
+                    <span class="material-symbols-outlined text-slate-500 dark:text-gray-400">dark_mode</span>
+                    <p class="text-sm font-medium leading-normal">Toggle Theme</p>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-8">
+            <div class="flex items-center justify-center h-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl">
+                <div class="text-center fade-in">
+                    <span class="material-symbols-outlined text-6xl text-gray-400 dark:text-gray-600 mb-4">description</span>
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Main Content Area</h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-2 max-w-md">The selected file's transcription details would be displayed here.</p>
+                    <p class="text-gray-400 dark:text-gray-500 text-sm mt-4">Click on a file from the sidebar to view its details</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/history.js"></script>
+</body>
+</html>

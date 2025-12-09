@@ -67,7 +67,7 @@ class Settings(BaseSettings):
     database_url: str = Field(default="sqlite:///./ai_meeting.db")
     
     # Redis Configuration
-    redis_url: str = Field(default="redis://localhost:6379/0", description="Redis connection URL")
+    redis_url: str = Field(default="redis://redis:6379/0", description="Redis connection URL")
     redis_max_connections: int = Field(default=10, ge=1, le=100)
     redis_job_ttl_seconds: int = Field(default=86400 * 7, description="Job TTL in seconds (default: 7 days)")
     

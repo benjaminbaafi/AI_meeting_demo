@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Recording Interface - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .pulsing-dot {
+            animation: pulse-dot 1.5s infinite;
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Hide video element initially */
+        #video-preview {
+            display: none;
+        }
+        
+        #video-preview.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="px-4 sm:px-8 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    
+                    <!-- Header -->
+                    <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-zinc-200 dark:border-zinc-700 px-4 sm:px-6 md:px-10 py-3">
+                        <div class="flex items-center gap-4 text-zinc-900 dark:text-white">
+                            <div class="size-6 text-primary">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <a href="../index.html" class="text-lg font-bold leading-tight tracking-[-0.015em]" style="text-decoration: none; color: inherit;">TranscribeAI</a>
+                        </div>
+                        <div class="hidden md:flex flex-1 justify-end gap-8">
+                            <div class="flex items-center gap-9">
+                                <a class="nav-link" href="../index.html">Dashboard</a>
+                                <a class="nav-link" href="transcriptions.html">My Files</a>
+                                <a class="nav-link active" href="recording.html">New Recording</a>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <button class="btn btn-primary">
+                                    <span class="truncate">Upgrade</span>
+                                </button>
+                                <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                                    <span class="material-symbols-outlined">dark_mode</span>
+                                </button>
+                                <div class="user-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC3ip8U_a11598kMYEiyas3WmqdewG7_WJSEEIzWnFW5o5dptAo4CMyLBKQhkc68g0ZHp4TMmpDtVWBLEsOCZ4dA-mY9xf00gf6KwT1NeEoFR2lR1nk8uy9ZjWThMAszQRnWRPv7lG5LHXeYGLsxr9lmD2kQrc5mNbXAs_Szetg9RhXSQooZyjvr0WgrgS9tgstda4k6_GuwfmyCDm12dcRuL77nKs6TiVIyXFCGIBygQjcaQbuSV8M4jiNLV6ApwcEI55mE_RlpNs");' title="User Profile"></div>
+                            </div>
+                        </div>
+                        <button class="md:hidden flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+                            <span class="material-symbols-outlined text-xl">menu</span>
+                        </button>
+                    </header>
+
+                    <!-- Main Content -->
+                    <main class="flex-1 mt-8 fade-in">
+                        
+                        <!-- Page Heading -->
+                        <div class="flex flex-wrap justify-between gap-3 p-4">
+                            <div class="flex min-w-72 flex-col gap-3">
+                                <h1 class="text-zinc-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">New Recording</h1>
+                                <p class="text-zinc-500 dark:text-zinc-400 text-base font-normal leading-normal">Record audio or video and get an instant transcription.</p>
+                            </div>
+                        </div>
+
+                        <!-- Recording Type Selector -->
+                        <div class="flex px-4 py-3">
+                            <div class="flex w-full h-10 items-center justify-center rounded-lg bg-zinc-200/70 dark:bg-zinc-800 p-1" id="recording-type-selector">
+                                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-zinc-900 has-[:checked]:shadow-sm has-[:checked]:text-zinc-900 dark:has-[:checked]:text-white text-zinc-500 dark:text-zinc-400 text-sm font-medium leading-normal">
+                                    <span class="truncate">Video & Audio</span>
+                                    <input checked class="invisible w-0" name="recording-type" type="radio" value="video"/>
+                                </label>
+                                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-zinc-900 has-[:checked]:shadow-sm has-[:checked]:text-zinc-900 dark:has-[:checked]:text-white text-zinc-500 dark:text-zinc-400 text-sm font-medium leading-normal">
+                                    <span class="truncate">Audio Only</span>
+                                    <input class="invisible w-0" name="recording-type" type="radio" value="audio"/>
+                                </label>
+                                <label class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-zinc-900 has-[:checked]:shadow-sm has-[:checked]:text-zinc-900 dark:has-[:checked]:text-white text-zinc-500 dark:text-zinc-400 text-sm font-medium leading-normal">
+                                    <span class="truncate">Screen</span>
+                                    <input class="invisible w-0" name="recording-type" type="radio" value="screen"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Media Preview -->
+                        <div class="p-4">
+                            <div class="relative flex flex-col items-center justify-center bg-zinc-900 bg-cover bg-center aspect-video rounded-xl p-4 overflow-hidden">
+                                
+                                <!-- Recording Indicator -->
+                                <div id="rec-indicator" class="absolute top-4 left-4 flex items-center gap-2 bg-black/50 rounded-full px-3 py-1 text-white text-sm" style="display: none;">
+                                    <div class="size-2 rounded-full bg-red-500 pulsing-dot"></div>
+                                    <span>REC</span>
+                                    <span id="rec-time-display">00:00:00</span>
+                                </div>
+
+                                <!-- Settings Button -->
+                                <div class="absolute top-4 right-4 flex items-center gap-2">
+                                    <button id="settings-btn" class="flex items-center justify-center rounded-full size-10 bg-black/50 text-white hover:bg-black/70 transition-colors">
+                                        <span class="material-symbols-outlined text-xl">settings</span>
+                                    </button>
+                                </div>
+
+                                <!-- Camera Off State -->
+                                <div id="camera-off-state" class="flex flex-col items-center justify-center gap-4 text-center text-white">
+                                    <span class="material-symbols-outlined text-6xl opacity-30">videocam_off</span>
+                                    <h3 class="text-xl font-bold">Your camera is off</h3>
+                                    <p class="text-zinc-400 max-w-xs">To start recording, please allow access to your camera and microphone in your browser settings.</p>
+                                    <button id="request-permissions-btn" class="btn btn-primary mt-4">
+                                        <span>Enable Camera & Mic</span>
+                                    </button>
+                                </div>
+
+                                <!-- Video Preview (Hidden initially) -->
+                                <video id="video-preview" class="w-full h-full object-cover rounded-lg" autoplay muted playsinline></video>
+                            </div>
+                        </div>
+
+                        <!-- Timer Display -->
+                        <div class="flex items-center justify-center gap-4 py-6 px-4">
+                            <p id="main-timer" class="text-zinc-900 dark:text-white text-5xl font-bold leading-tight tracking-[-0.03em] font-mono">00:00:00</p>
+                        </div>
+
+                        <!-- Recording Controls -->
+                        <div class="flex justify-center items-center gap-4 py-3 px-4">
+                            <!-- Cancel Button -->
+                            <button id="cancel-btn" class="flex items-center justify-center rounded-full size-16 bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-colors" title="Cancel Recording">
+                                <span class="material-symbols-outlined text-3xl">cancel</span>
+                            </button>
+
+                            <!-- Start/Stop Button -->
+                            <button id="record-btn" class="flex items-center justify-center rounded-full size-20 bg-red-500 text-white shadow-[0_0_0_4px_rgba(239,68,68,0.3)] hover:bg-red-600 transition-colors" title="Start Recording">
+                                <span class="material-symbols-outlined text-4xl fill">fiber_manual_record</span>
+                            </button>
+
+                            <!-- Pause Button -->
+                            <button id="pause-btn" class="flex items-center justify-center rounded-full size-16 bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-white hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-colors" title="Pause Recording" style="display: none;">
+                                <span class="material-symbols-outlined text-3xl">pause</span>
+                            </button>
+                        </div>
+
+                    </main>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/recording.js"></script>
+</body>
+</html>

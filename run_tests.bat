@@ -6,6 +6,8 @@ echo Running Tests with UV
 echo ========================================
 echo.
 
+cd backend
+
 REM Check if uv is installed
 where uv >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Account Settings - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="page-wrapper">
+        <div class="layout-container flex h-full grow flex-col">
+            <div class="flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col w-full max-w-4xl flex-1 px-4 md:px-0">
+                    
+                    <!-- Header -->
+                    <header class="site-header">
+                        <div class="logo-section">
+                            <div class="logo-icon">
+                                <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <a href="../index.html" class="logo-text" style="text-decoration: none; color: inherit;">TranscribeAI</a>
+                        </div>
+                        <div class="nav-section">
+                            <a class="nav-link" href="transcriptions.html">My Transcriptions</a>
+                            <a class="nav-link active" href="account.html">Account</a>
+                            <button class="btn btn-primary">
+                                <span class="truncate">Upgrade</span>
+                            </button>
+                            <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                                <span class="material-symbols-outlined">dark_mode</span>
+                            </button>
+                            <div class="user-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATmK7r-FeP53cWoSv-PgmIiiVMJS35Fl0vYrbopguwN7cRYzKhZesCxFmhK12Y0R5Y_YfQZ4f74w_ufNcmceBVqYgOs2MwSo91xuZ6n_o5fWCkAs5--zYCxP7Uo9ww8Yire4vBOhBzuKNXIx-lUrNsH6u8Z8ikXvZ7hHCPPp-J9rBVpgv-P1xBryJieIJrX4VuqxCk0JfCu6XMtbvOOeuA5RLzohHyLWmrWKdPyrDKp9zZzLX-JdN5ocw4FbS8m7lzGleJYXgTciY");' title="User Profile"></div>
+                        </div>
+                    </header>
+
+                    <!-- Main Content -->
+                    <main class="flex flex-col flex-1 p-4 sm:p-6">
+                        <div class="w-full max-w-2xl mx-auto flex flex-col gap-8 fade-in">
+                            
+                            <!-- Page Header -->
+                            <div>
+                                <h1 class="text-slate-800 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Account Settings</h1>
+                                <p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal mt-2">Manage your profile and preferences</p>
+                            </div>
+
+                            <!-- Profile Section -->
+                            <div class="card">
+                                <h2 class="text-slate-800 dark:text-white text-xl font-bold mb-4">Profile Information</h2>
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center gap-4">
+                                        <div class="user-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATmK7r-FeP53cWoSv-PgmIiiVMJS35Fl0vYrbopguwN7cRYzKhZesCxFmhK12Y0R5Y_YfQZ4f74w_ufNcmceBVqYgOs2MwSo91xuZ6n_o5fWCkAs5--zYCxP7Uo9ww8Yire4vBOhBzuKNXIx-lUrNsH6u8Z8ikXvZ7hHCPPp-J9rBVpgv-P1xBryJieIJrX4VuqxCk0JfCu6XMtbvOOeuA5RLzohHyLWmrWKdPyrDKp9zZzLX-JdN5ocw4FbS8m7lzGleJYXgTciY"); width: 4rem; height: 4rem;'></div>
+                                        <button class="btn btn-secondary">
+                                            <span class="material-symbols-outlined">photo_camera</span>
+                                            <span>Change Photo</span>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-700 dark:text-slate-300 text-sm font-medium mb-2">Full Name</label>
+                                        <input type="text" value="John Doe" class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                                    </div>
+                                    <div>
+                                        <label class="block text-slate-700 dark:text-slate-300 text-sm font-medium mb-2">Email Address</label>
+                                        <input type="email" value="john.doe@example.com" class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary">
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button class="btn btn-primary">
+                                            <span>Save Changes</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Subscription Section -->
+                            <div class="card">
+                                <h2 class="text-slate-800 dark:text-white text-xl font-bold mb-4">Subscription Plan</h2>
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center justify-between p-4 bg-slate-100 dark:bg-slate-700 rounded-lg">
+                                        <div>
+                                            <h3 class="text-slate-800 dark:text-white font-bold">Free Plan</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm">10 hours/month transcription</p>
+                                        </div>
+                                        <button class="btn btn-primary">
+                                            <span>Upgrade</span>
+                                        </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="flex justify-between text-sm mb-2">
+                                            <span class="text-slate-700 dark:text-slate-300">Usage this month</span>
+                                            <span class="text-slate-800 dark:text-white font-medium">2.5 / 10 hours</span>
+                                        </div>
+                                        <div class="progress-bar-bg">
+                                            <div class="progress-bar-fill" style="width: 25%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferences Section -->
+                            <div class="card">
+                                <h2 class="text-slate-800 dark:text-white text-xl font-bold mb-4">Preferences</h2>
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="text-slate-800 dark:text-white font-medium">Dark Mode</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm">Toggle dark mode theme</p>
+                                        </div>
+                                        <button id="theme-toggle-settings" class="theme-toggle">
+                                            <span class="material-symbols-outlined">dark_mode</span>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-600">
+                                        <div>
+                                            <h3 class="text-slate-800 dark:text-white font-medium">Email Notifications</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm">Receive updates about your transcriptions</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
+                                        </label>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-600">
+                                        <div>
+                                            <h3 class="text-slate-800 dark:text-white font-medium">Auto-Delete Files</h3>
+                                            <p class="text-slate-500 dark:text-slate-400 text-sm">Delete uploaded files after 30 days</p>
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer dark:bg-slate-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-primary"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Danger Zone -->
+                            <div class="card border-red-300 dark:border-red-700">
+                                <h2 class="text-red-600 dark:text-red-400 text-xl font-bold mb-4">Danger Zone</h2>
+                                <div class="flex flex-col gap-3">
+                                    <p class="text-slate-600 dark:text-slate-300 text-sm">Once you delete your account, there is no going back. Please be certain.</p>
+                                    <button class="btn bg-red-600 hover:bg-red-700 text-white" style="max-width: fit-content;">
+                                        <span class="material-symbols-outlined">delete</span>
+                                        <span>Delete Account</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </main>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        // Add theme toggle for settings page
+        const settingsToggle = document.getElementById('theme-toggle-settings');
+        if (settingsToggle) {
+            settingsToggle.addEventListener('click', () => {
+                window.themeManager.toggle();
+            });
+        }
+    </script>
+</body>
+</html>

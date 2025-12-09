@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Results Dashboard - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+    <div class="relative flex h-auto min-h-screen w-full flex-col">
+        <div class="layout-container flex h-full grow flex-col">
+            
+            <!-- Header -->
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-6 sm:px-10 py-3 bg-white dark:bg-background-dark/20 sticky top-0 z-10">
+                <div class="flex items-center gap-4 text-slate-800 dark:text-white">
+                    <div class="size-6 text-primary">
+                        <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                    <a href="../index.html" class="text-lg font-bold leading-tight tracking-[-0.015em]" style="text-decoration: none; color: inherit;">TranscribeAI</a>
+                </div>
+                <div class="hidden md:flex flex-1 justify-center gap-8">
+                    <div class="flex items-center gap-9">
+                        <a class="nav-link" href="../index.html">Dashboard</a>
+                        <a class="nav-link active" href="transcriptions.html">Projects</a>
+                        <a class="nav-link" href="upload.html">Upload</a>
+                        <a class="nav-link" href="account.html">Settings</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex gap-2">
+                        <button id="share-btn" class="btn btn-primary">
+                            <span class="truncate">Share</span>
+                        </button>
+                    </div>
+                    <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                        <span class="material-symbols-outlined">dark_mode</span>
+                    </button>
+                    <div class="user-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfhmM94paCwEU28N7DUluUg_DjE4zRHSdT0-6eziElziKJnhl5d0cUyhnTkrPeGcf5e8KC_hso9k4edBnuRC5X6qQ-A68K5d0Wymd6VQ5FvAiWHGuhKQQ2B_fXo0nigZKFDfHOP5qaaz2yTpsUNl9OJhR2CwMfjgA_U9RSslmGZzgiJILUnqY_T31OyIcxoJTQJei2SUZX3zgaxEHoSejKM7vCm9oc1qVF21466DOQXEY524EQwPtM7_LkeSxlPQyuBecrN0q3cvs");' title="User Profile"></div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-1 px-4 sm:px-6 md:px-10 lg:px-12 py-8">
+                <div class="mx-auto max-w-7xl fade-in">
+                    
+                    <!-- Breadcrumb -->
+                    <div class="flex flex-wrap gap-2">
+                        <a class="text-slate-500 dark:text-gray-400 text-base font-medium hover:text-primary transition-colors" href="transcriptions.html">Projects</a>
+                        <span class="text-slate-500 dark:text-gray-400 text-base font-medium">/</span>
+                        <span class="text-slate-800 dark:text-white text-base font-medium">Meeting Recording 10-26</span>
+                    </div>
+
+                    <!-- Page Header -->
+                    <div class="flex flex-wrap justify-between gap-3 pt-4 pb-8">
+                        <div class="flex min-w-72 flex-col gap-3">
+                            <h1 class="text-slate-800 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Results for Meeting Recording 10-26</h1>
+                            <p class="text-slate-500 dark:text-gray-400 text-base font-normal leading-normal">Review, edit, and export your AI-generated transcription, summary, and action items.</p>
+                        </div>
+                        <button id="export-all-btn" class="btn btn-secondary h-10">
+                            <span class="truncate">Export All</span>
+                        </button>
+                    </div>
+
+                    <!-- Video Player -->
+                    <div class="mb-8">
+                        <div class="relative flex items-center justify-center bg-cover bg-center aspect-video rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAhpC2NimLqnpvqknaM7YrZ2uBduTYCH7ECAjjwmbSL_QYIjYC6DBHJWjzeQPRiW7ppPeDybgUF0dTJr12uk4nZ1EG5yfD_g4nyoS4GUApiLa8MJ9-ottmb2ETjOzs-k8h7FbQ_ZrLJql7zfGd9vU0ApzIpA8BxKIn1lqQgIOmKFwuukBrnImFnkmKOwITN0lUAr4GX0FXcdqTI-POjN9ZGyXAH5o3VakpudVF3t1O8Pg7eLJwrALcIWVQovnsB9PE0ZLn8UJlKSyo");'>
+                            <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+                            <button id="play-btn" class="relative flex shrink-0 items-center justify-center rounded-full size-16 bg-white/20 text-white backdrop-blur-sm hover:bg-white/30 transition-colors">
+                                <span class="material-symbols-outlined !text-4xl">play_arrow</span>
+                            </button>
+                            <div class="absolute inset-x-0 bottom-0 px-4 py-3">
+                                <div class="flex items-center gap-4">
+                                    <p class="text-white text-xs font-medium leading-normal tracking-[0.015em]">0:37</p>
+                                    <div class="h-1 flex-1 rounded-full bg-white/30">
+                                        <div id="video-progress" class="h-1 w-1/4 rounded-full bg-white"></div>
+                                    </div>
+                                    <p class="text-white text-xs font-medium leading-normal tracking-[0.015em]">2:23</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Three Column Layout -->
+                    <div class="grid grid-cols-1 lg:grid-cols-10 gap-8">
+                        
+                        <!-- Transcription Panel (Left) -->
+                        <div class="lg:col-span-3 card flex flex-col">
+                            <h2 class="text-slate-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">Transcription</h2>
+                            
+                            <!-- Search -->
+                            <div class="relative mb-4">
+                                <input 
+                                    id="search-transcription"
+                                    class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-background-light dark:bg-background-dark text-slate-800 dark:text-white focus:ring-primary focus:border-primary" 
+                                    placeholder="Search transcription..." 
+                                    type="text"
+                                />
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                            </div>
+
+                            <!-- Transcription Content -->
+                            <div class="space-y-4 overflow-y-auto pr-2 flex-1" style="max-height: 400px;">
+                                <div class="transcription-item flex flex-col gap-2 text-sm">
+                                    <span class="font-bold text-primary cursor-pointer hover:underline">[00:00:15]</span>
+                                    <p class="text-slate-500 dark:text-gray-300">
+                                        <span class="font-semibold text-slate-800 dark:text-white">Speaker 1:</span> 
+                                        Alright team, let's kick off the Q4 planning session. First on the agenda is reviewing last quarter's performance.
+                                    </p>
+                                </div>
+                                <div class="transcription-item flex flex-col gap-2 text-sm">
+                                    <span class="font-bold text-primary cursor-pointer hover:underline">[00:00:37]</span>
+                                    <p class="text-slate-500 dark:text-gray-300">
+                                        <span class="font-semibold text-slate-800 dark:text-white">Speaker 2:</span> 
+                                        Overall, we saw a 15% growth in user acquisition, which is fantastic. However, engagement metrics were a bit flat.
+                                    </p>
+                                </div>
+                                <div class="transcription-item flex flex-col gap-2 text-sm">
+                                    <span class="font-bold text-primary cursor-pointer hover:underline">[00:00:52]</span>
+                                    <p class="text-slate-500 dark:text-gray-300">
+                                        <span class="font-semibold text-slate-800 dark:text-white">Speaker 1:</span> 
+                                        Good point. We need to focus on retention strategies. I've noted that as an action item.
+                                    </p>
+                                </div>
+                                <div class="transcription-item flex flex-col gap-2 text-sm">
+                                    <span class="font-bold text-primary cursor-pointer hover:underline">[00:01:10]</span>
+                                    <p class="text-slate-500 dark:text-gray-300">
+                                        <span class="font-semibold text-slate-800 dark:text-white">Speaker 3:</span> 
+                                        On the product side, the new feature rollout is on track for November 15th. We'll need marketing's support for the launch.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary Panel (Middle) -->
+                        <div class="lg:col-span-4 card flex flex-col">
+                            <div class="flex items-center justify-between pb-4">
+                                <h2 class="text-slate-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">AI Summary</h2>
+                                <div class="flex items-center gap-2">
+                                    <button id="copy-summary-btn" class="btn btn-primary h-9">
+                                        <span class="truncate">Copy</span>
+                                    </button>
+                                    <button id="regenerate-summary-btn" class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 bg-background-light dark:bg-gray-700/50 text-slate-800 dark:text-white gap-2 text-sm font-bold px-2.5 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                                        <span class="material-symbols-outlined !text-lg">autorenew</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="summary-content" class="space-y-4 text-base text-slate-500 dark:text-gray-300">
+                                <p>The meeting focused on Q4 planning, starting with a review of Q3's performance. Key discussion points included a 15% growth in user acquisition but flat user engagement. This led to identifying a need for improved retention strategies. The product team confirmed the new feature launch is scheduled for November 15th and requires marketing collaboration.</p>
+                                <ul class="space-y-2 list-disc list-inside">
+                                    <li>Q3 saw a 15% increase in user acquisition.</li>
+                                    <li>User engagement metrics remained static, highlighting a need for retention focus.</li>
+                                    <li>A new product feature is set to launch on November 15th.</li>
+                                    <li>Marketing support is crucial for the upcoming feature launch.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Action Items Panel (Right) -->
+                        <div class="lg:col-span-3 card flex flex-col">
+                            <div class="flex items-center justify-between pb-4">
+                                <h2 class="text-slate-800 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Action Items</h2>
+                                <button id="export-actions-btn" class="btn btn-secondary h-9">
+                                    <span class="truncate">Export</span>
+                                </button>
+                            </div>
+                            <div id="action-items-list" class="space-y-3 flex-1">
+                                <!-- Action Item 1 - High Priority -->
+                                <div class="action-item flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-background-dark">
+                                    <input class="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox"/>
+                                    <label class="flex-1 text-sm text-slate-800 dark:text-white">Develop and present new user retention strategies for Q4.</label>
+                                    <div class="size-2.5 rounded-full bg-red-500 mt-1.5 shrink-0" title="High Priority"></div>
+                                </div>
+                                
+                                <!-- Action Item 2 - Medium Priority -->
+                                <div class="action-item flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-background-dark">
+                                    <input class="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox"/>
+                                    <label class="flex-1 text-sm text-slate-800 dark:text-white">Coordinate with the marketing team to create a launch plan for the new feature.</label>
+                                    <div class="size-2.5 rounded-full bg-yellow-500 mt-1.5 shrink-0" title="Medium Priority"></div>
+                                </div>
+                                
+                                <!-- Action Item 3 - Completed -->
+                                <div class="action-item flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-background-dark">
+                                    <input checked class="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" type="checkbox"/>
+                                    <label class="flex-1 text-sm text-slate-500 dark:text-gray-400 line-through">Finalize the performance report from Q3.</label>
+                                    <div class="size-2.5 rounded-full bg-green-500 mt-1.5 shrink-0" title="Low Priority"></div>
+                                </div>
+                            </div>
+                            <button id="add-action-btn" class="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-white dark:bg-gray-700/50 text-primary text-sm font-bold leading-normal tracking-[0.015em] border border-dashed border-primary/50 hover:bg-primary/5 transition-colors">
+                                <span class="material-symbols-outlined !text-lg">add</span>
+                                <span class="truncate">Add Item</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/results.js"></script>
+</body>
+</html>

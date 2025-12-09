@@ -1,0 +1,73 @@
+services:
+  # Redis service for job persistence
+  redis:
+    image: redis:7-alpine
+    container_name: ai-meeting-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - ai-meeting-network
+
+  # Main application service
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-meeting-app
+    ports:
+      - "8000:8000"
+    environment:
+      # Application settings
+      - APP_NAME=AI Meeting Participant
+      - APP_VERSION=0.1.0
+      - ENVIRONMENT=production
+      - DEBUG=false
+      - LOG_LEVEL=info
+      
+      # Redis connection
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      
+      # Azure OpenAI (load from .env file)
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_API_VERSION=${AZURE_OPENAI_API_VERSION:-2024-02-15-preview}
+      - AZURE_OPENAI_GPT_DEPLOYMENT=${AZURE_OPENAI_GPT_DEPLOYMENT}
+      - AZURE_OPENAI_WHISPER_DEPLOYMENT=${AZURE_OPENAI_WHISPER_DEPLOYMENT}
+      
+      # CORS settings
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:8000,http://localhost:8080
+      
+      # Security (required by config)
+      - SECRET_KEY=${SECRET_KEY:-docker-default-secret-key-change-in-production}
+    volumes:
+      # Persist outputs, logs, and uploads
+      - ./outputs:/app/outputs
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+      - ./temp:/app/temp
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - ai-meeting-network
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  ai-meeting-network:
+    driver: bridge

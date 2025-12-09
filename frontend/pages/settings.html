@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Settings - TranscribeAI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom Styles -->
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../css/components.css" rel="stylesheet"/>
+    <link href="../css/sidebar.css" rel="stylesheet"/>
+    
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2463eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111621",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+    <div class="relative flex min-h-screen w-full flex-col">
+        <div class="flex h-full grow">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="flex w-64 flex-col gap-y-6 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-4 font-display">
+                <div class="flex items-center gap-3">
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwrV8OOfAep1Vhmx6glcO611DqFNneb99lcU-YqbSN9ofpyawGy5pemocr_kWIrKIxHuQa8EIy7v10x-bw-nZ3mFvRGt9EuYo2kNN__vB86yLc_VS0ASyut6tJiv7eX2MfSpXZRiFL9Waow5dlphQuKB6XuzfGdtd7kRjexVychBjEwdAQhWBTJE9dxUfxe8U6PfiZwh98PjGx2TWc--tv9rVU7k4OivlGkabMjrD-9-ab-xH5FyPnYwFp6daXFvi-wOygdBbJhv0");'></div>
+                    <div class="flex flex-col">
+                        <h1 class="text-gray-900 dark:text-white text-base font-medium leading-normal">Alex Miller</h1>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">alex.miller@email.com</p>
+                    </div>
+                </div>
+                
+                <nav class="flex flex-col gap-2">
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="../index.html" style="text-decoration: none;">
+                        <span class="material-symbols-outlined text-gray-900 dark:text-white">dashboard</span>
+                        <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal">Dashboard</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="upload.html" style="text-decoration: none;">
+                        <span class="material-symbols-outlined text-gray-900 dark:text-white">upload_file</span>
+                        <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal">Upload</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="transcriptions.html" style="text-decoration: none;">
+                        <span class="material-symbols-outlined text-gray-900 dark:text-white">folder</span>
+                        <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal">My Files</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="history.html" style="text-decoration: none;">
+                        <span class="material-symbols-outlined text-gray-900 dark:text-white">bar_chart</span>
+                        <p class="text-gray-900 dark:text-white text-sm font-medium leading-normal">Analytics</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20" href="settings.html" style="text-decoration: none;">
+                        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">settings</span>
+                        <p class="text-primary text-sm font-medium leading-normal">Settings</p>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 p-8">
+                <div class="mx-auto max-w-4xl">
+                    
+                    <!-- Page Heading -->
+                    <div class="flex flex-wrap justify-between gap-3 pb-8">
+                        <h1 class="text-gray-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Settings</h1>
+                    </div>
+
+                    <div class="flex flex-col gap-10">
+                        
+                        <!-- General Section -->
+                        <section>
+                            <div class="flex items-center gap-3 px-4 pb-4">
+                                <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">tune</span>
+                                <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">General</h3>
+                            </div>
+                            <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-6">
+                                <div class="flex max-w-[480px] flex-wrap items-end gap-4">
+                                    <label class="flex flex-col min-w-40 flex-1">
+                                        <p class="text-gray-900 dark:text-white text-base font-medium leading-normal pb-2">Default Transcription Language</p>
+                                        <select id="language-select" class="form-select flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900/50 focus:border-primary h-12 placeholder:text-gray-500 dark:placeholder:text-gray-400 px-3 text-base font-normal leading-normal">
+                                            <option value="en-US">English (United States)</option>
+                                            <option value="en-GB">English (United Kingdom)</option>
+                                            <option value="es-ES">Spanish</option>
+                                            <option value="fr-FR">French</option>
+                                            <option value="de-DE">German</option>
+                                            <option value="pt-BR">Portuguese (Brazil)</option>
+                                            <option value="ja-JP">Japanese</option>
+                                            <option value="zh-CN">Chinese (Simplified)</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Appearance Section -->
+                        <section>
+                            <div class="flex items-center gap-3 px-4 pb-4">
+                                <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">contrast</span>
+                                <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Appearance</h3>
+                            </div>
+                            <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Dark Mode</p>
+                                        <p class="text-gray-500 dark:text-gray-400 text-sm">Switch between light and dark themes.</p>
+                                    </div>
+                                    <button id="dark-mode-toggle" aria-checked="false" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-primary transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark" role="switch" type="button">
+                                        <span class="sr-only">Use dark mode</span>
+                                        <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0 dark:translate-x-5"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Notifications Section -->
+                        <section>
+                            <div class="flex items-center gap-3 px-4 pb-4">
+                                <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">notifications</span>
+                                <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Notifications</h3>
+                            </div>
+                            <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-6">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Email Notifications</p>
+                                            <p class="text-gray-500 dark:text-gray-400 text-sm">Receive email when transcriptions are complete.</p>
+                                        </div>
+                                        <button id="email-notifications-toggle" aria-checked="true" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-primary transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark" role="switch" type="button">
+                                            <span class="sr-only">Use email notifications</span>
+                                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Push Notifications</p>
+                                            <p class="text-gray-500 dark:text-gray-400 text-sm">Receive browser notifications for updates.</p>
+                                        </div>
+                                        <button id="push-notifications-toggle" aria-checked="false" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 dark:bg-gray-700 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark" role="switch" type="button">
+                                            <span class="sr-only">Use push notifications</span>
+                                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Account Section -->
+                        <section>
+                            <div class="flex items-center gap-3 px-4 pb-4">
+                                <span class="material-symbols-outlined text-gray-600 dark:text-gray-400">person</span>
+                                <h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Account</h3>
+                            </div>
+                            <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-900 dark:text-white text-base font-medium leading-normal">Manage Subscription</p>
+                                        <p class="text-gray-500 dark:text-gray-400 text-sm">View your plan, billing history and update payment details.</p>
+                                    </div>
+                                    <a class="inline-flex items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-200 transition-colors" href="account.html" style="text-decoration: none;">
+                                        Go to Billing
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Action Area -->
+                        <div class="flex justify-end pt-4 gap-3">
+                            <button id="cancel-btn" class="flex items-center justify-center rounded-lg h-12 px-6 text-base font-medium transition-colors bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+                                Cancel
+                            </button>
+                            <button id="save-btn" class="flex items-center justify-center rounded-lg h-12 px-6 text-base font-medium transition-colors bg-primary text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:bg-gray-300 dark:disabled:bg-gray-700 dark:disabled:text-gray-500">
+                                Save Changes
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/settings.js"></script>
+</body>
+</html>
